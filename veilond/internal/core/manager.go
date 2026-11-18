@@ -216,6 +216,9 @@ func New(opt Options, store *state.Store, api API) *Manager {
 
 // Register creates an anonymous account and returns its number (shown once).
 func (m *Manager) Register(ctx context.Context) (string, error) {
+	if m.api == nil {
+		return "", ErrUnsupported
+	}
 	key, err := m.store.DeviceKey()
 	if err != nil {
 		return "", err
@@ -235,6 +238,9 @@ func (m *Manager) Register(ctx context.Context) (string, error) {
 
 // Login with an existing account number.
 func (m *Manager) Login(ctx context.Context, number string) error {
+	if m.api == nil {
+		return ErrUnsupported
+	}
 	key, err := m.store.DeviceKey()
 	if err != nil {
 		return err
@@ -255,7 +261,7 @@ func (m *Manager) Login(ctx context.Context, number string) error {
 // Logout disconnects, revokes the session and wipes local account data.
 func (m *Manager) Logout(ctx context.Context) error {
 	_ = m.Disconnect(ctx)
-	if tok, err := m.store.LoadTokens(); err == nil {
+	if tok, err := m.store.LoadTokens(); err == nil && m.api != nil {
 		_ = m.api.Logout(ctx, tok.Access, tok.Refresh) // best effort
 	}
 	m.mu.Lock()
@@ -280,6 +286,9 @@ func (m *Manager) accessToken(ctx context.Context) (string, error) {
 	if m.opt.Now().Add(60*time.Second).Unix() < tok.AccessExp {
 		return tok.Access, nil
 	}
+	if m.api == nil {
+		return "", ErrUnsupported
+	}
 	key, err := m.store.DeviceKey()
 	if err != nil {
 		return "", err
@@ -296,6 +305,9 @@ func (m *Manager) accessToken(ctx context.Context) (string, error) {
 
 // RefreshProfile downloads keyset + profile, verifies both, and caches them.
 func (m *Manager) RefreshProfile(ctx context.Context) error {
+	if m.api == nil {
+		return ErrUnsupported
+	}
 	access, err := m.accessToken(ctx)
 	if err != nil {
 		return err

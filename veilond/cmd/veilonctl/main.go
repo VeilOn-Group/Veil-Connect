@@ -23,26 +23,25 @@ import (
 	"time"
 )
 
-func main() {
-	sock := flag.String("socket", envOr("VEILOND_SOCKET", "/run/veilon/sock/veilond.sock"), "veilond socket")
-	flag.Parse()
-	args := flag.Args()
+func main() { os.Exit(run(os.Args[1:], os.Stdout, os.Stderr)) }
+
+// request maps a command line to a local API call; ok is false for a
+// usage error.
+func request(args []string) (method, path string, body any, ok bool) {
 	if len(args) == 0 {
-		usage()
+		return "", "", nil, false
 	}
-	c := &http.Client{Timeout: 60 * time.Second, Transport: &http.Transport{
-		DialContext: func(ctx context.Context, _, _ string) (net.Conn, error) {
-			return (&net.Dialer{}).DialContext(ctx, "unix", *sock)
-		},
-	}}
-	method, path, body := http.MethodGet, "", any(nil)
+	need := func(n int) bool { return len(args) >= n }
+	method = http.MethodGet
 	switch args[0] {
 	case "status":
 		path = "/v1/status"
 	case "register":
 		method, path = http.MethodPost, "/v1/account/register"
 	case "login":
-		need(args, 2)
+		if !need(2) {
+			return "", "", nil, false
+		}
 		method, path, body = http.MethodPost, "/v1/account/login", map[string]string{"account_number": args[1]}
 	case "logout":
 		method, path = http.MethodPost, "/v1/account/logout"
@@ -63,10 +62,14 @@ func main() {
 	case "disconnect":
 		method, path = http.MethodPost, "/v1/disconnect"
 	case "select":
-		need(args, 3)
+		if !need(3) {
+			return "", "", nil, false
+		}
 		method, path, body = http.MethodPost, "/v1/transport/select", map[string]string{"group": args[1], "transport": args[2]}
 	case "enable", "disable":
-		need(args, 2)
+		if !need(2) {
+			return "", "", nil, false
+		}
 		method, path, body = http.MethodPost, "/v1/transport/enabled", map[string]any{"transport": args[1], "enabled": args[0] == "enable"}
 	case "logs":
 		path = "/v1/logs"
@@ -78,8 +81,28 @@ func main() {
 	case "what-we-store":
 		path = "/v1/privacy/what-we-store"
 	default:
-		usage()
+		return "", "", nil, false
 	}
+	return method, path, body, true
+}
+
+func run(argv []string, stdout, stderr io.Writer) int {
+	fs := flag.NewFlagSet("veilonctl", flag.ContinueOnError)
+	fs.SetOutput(stderr)
+	sock := fs.String("socket", envOr("VEILOND_SOCKET", "/run/veilon/sock/veilond.sock"), "veilond socket")
+	if err := fs.Parse(argv); err != nil {
+		return 2
+	}
+	method, path, body, ok := request(fs.Args())
+	if !ok {
+		fmt.Fprintln(stderr, "usage: veilonctl status|register|login <n>|logout|account [--reveal]|refresh|profile|connect [node]|disconnect|select tcp|udp <t>|enable <t>|disable <t>|logs [n]|wipe-logs|what-we-store")
+		return 2
+	}
+	c := &http.Client{Timeout: 60 * time.Second, Transport: &http.Transport{
+		DialContext: func(ctx context.Context, _, _ string) (net.Conn, error) {
+			return (&net.Dialer{}).DialContext(ctx, "unix", *sock)
+		},
+	}}
 	var rd io.Reader
 	if body != nil {
 		b, _ := json.Marshal(body)
@@ -91,8 +114,8 @@ func main() {
 	}
 	resp, err := c.Do(req)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "veilonctl:", err)
-		os.Exit(1)
+		fmt.Fprintln(stderr, "veilonctl:", err)
+		return 1
 	}
 	defer resp.Body.Close()
 	out, _ := io.ReadAll(resp.Body)
@@ -100,16 +123,11 @@ func main() {
 	if json.Indent(&pretty, out, "", "  ") == nil {
 		out = pretty.Bytes()
 	}
-	fmt.Println(string(out))
+	fmt.Fprintln(stdout, string(out))
 	if resp.StatusCode/100 != 2 {
-		os.Exit(1)
+		return 1
 	}
-}
-
-func need(args []string, n int) {
-	if len(args) < n {
-		usage()
-	}
+	return 0
 }
 
 func envOr(k, def string) string {
@@ -117,9 +135,4 @@ func envOr(k, def string) string {
 		return v
 	}
 	return def
-}
-
-func usage() {
-	fmt.Fprintln(os.Stderr, "usage: veilonctl status|register|login <n>|logout|account [--reveal]|refresh|profile|connect [node]|disconnect|select tcp|udp <t>|enable <t>|disable <t>|logs [n]|wipe-logs|what-we-store")
-	os.Exit(2)
 }
