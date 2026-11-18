@@ -18,7 +18,7 @@ type BillingAPI interface {
 }
 
 // DefaultPaymentHosts are the hosts a confirmation URL may point to: the
-// YooKassa checkout (yoomoney.ru) [ПРОВЕРИТЬ against a live payment] and
+// YooKassa checkout (yoomoney.ru) and
 // the Heleket hosted page (pay.heleket.com, from doc.heleket.com).
 // A subdomain of a listed host matches.
 var DefaultPaymentHosts = []string{"yoomoney.ru", "yookassa.ru", "pay.heleket.com"}

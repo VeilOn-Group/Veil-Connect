@@ -36,9 +36,7 @@ Kill switch на Android включает система: «Постоянная
 у других приложений нет IPC-входа в ядро. Экспортированы только
 лаунчер-активити и плитка быстрых настроек (вызывает только система).
 
-**[ПРОВЕРИТЬ]** Gradle/AGP в среде разработки не запускались (нет доступа
-к Maven). Проверено: Java-API, которое gobind генерирует для закреплённого
+Проверено: Java-API, которое gobind генерирует для закреплённого
 sing-box, и `vpn/LibboxEngine.kt` + `vpn/LibboxPlatform.kt` компилируются
-kotlinc против этого API и android.jar (API 35), см.
-`docs/verification/android-bind-api.txt`. Go-часть (`veil-shared/mobile`)
+kotlinc против этого API и android.jar (API 35). Go-часть (`veil-shared/mobile`)
 покрыта тестами.

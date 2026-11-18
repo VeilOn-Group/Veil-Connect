@@ -1,6 +1,0 @@
-ok: foreign signature refused (veilon-updater: updater: update rejected: release metadata: sign: signature verification failed)
-ok: tampered package refused (veilon-updater: updater: update rejected: artifact does not match the signed SHA-256)
-time=2026-10-23T04:04:24.869+03:00 level=WARN msg="update installed" version=0.6.1
-ok: 0.6.1 installed silently
-ok: downgrade refused (veilon-updater: updater: update rejected: version 0.6.0 is not newer than 0.6.1)
-silent update round trip: OK

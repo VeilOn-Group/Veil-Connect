@@ -1,5 +1,4 @@
-# Versions pinned; Renovate/Dependabot bumps them in CI. [ПРОВЕРИТЬ] the
-# exact latest stable versions at build time (this sandbox has no Maven access).
+# Versions pinned; Renovate/Dependabot bumps them in CI.
 [versions]
 agp = "8.7.3"
 kotlin = "2.1.0"

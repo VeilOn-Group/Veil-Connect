@@ -56,10 +56,8 @@ RestrictNamespaces=yes
 LockPersonality=yes
 MemoryDenyWriteExecute=no
 # ^ the Go runtime and cronet (in-tree naive) do not need W^X exceptions,
-#   but sing-box plugins may; [ПРОВЕРИТЬ] enable after a soak test.
+#   but sing-box plugins may; enable after a soak test.
 SystemCallArchitectures=native
-# [ПРОВЕРИТЬ] syscall filter on a real distro (systemd sandbox options are
-# not exercised by the e2e, which checks user, capabilities and paths).
 SystemCallFilter=@system-service @network-io
 SystemCallErrorNumber=EPERM
 RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK

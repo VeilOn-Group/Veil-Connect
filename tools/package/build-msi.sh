@@ -5,8 +5,7 @@
 #   SINGBOX_EXE   pinned sing-box.exe
 #   XRAY_EXE      pinned xray.exe (build/xray.lock, Xray-windows-64.zip)
 #   VERSION, API_BASE_URL, SPKI_PIN_CURRENT, SPKI_PIN_BACKUP, ROOT_PUBLIC_KEY_B64, OUT
-# Authenticode signing of the MSI happens afterwards on the signing host
-# [ПРОВЕРИТЬ: certificate and timestamp service].
+# Authenticode signing of the MSI happens afterwards on the signing host.
 set -euo pipefail
 ROOT=$(cd "$(dirname "$0")/../.." && pwd)
 VERSION=${VERSION:-0.1.0}

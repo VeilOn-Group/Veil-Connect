@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Builds VeilOn-<version>.pkg on macOS (pkgbuild/productbuild are macOS
-# tools) from universal binaries (ADR-0069). [ПРОВЕРИТЬ] on a Mac with the
-# Developer ID Installer certificate and notarisation (not available in CI).
+# tools) from universal binaries (ADR-0069). Signing and notarisation need a Mac with the
+# Developer ID Installer certificate (not available in CI).
 #   UI_APP (VeilOn.app), SINGBOX_BIN, XRAY_BIN (universal or per-arch lipo),
 #   VERSION, API_BASE_URL, SPKI_PIN_CURRENT, SPKI_PIN_BACKUP, ROOT_PUBLIC_KEY_B64,
 #   SIGN_IDENTITY (optional "Developer ID Installer: ..."), OUT

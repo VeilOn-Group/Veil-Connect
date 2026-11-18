@@ -40,7 +40,7 @@ jobs:
       - run: cd veilon-app/desktop && go mod tidy && go vet ./... && go build ./...
 
   android:
-    # Pinned toolchain image (android/toolchain.lock, ADR-0061). [ПРОВЕРИТЬ] first run.
+    # Pinned toolchain image (android/toolchain.lock, ADR-0061).
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4

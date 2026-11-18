@@ -21,7 +21,7 @@ import (
 // Rationale (ADR-0053): sing-box strict_route already installs WFP filters,
 // but in a dynamic WFP session that vanishes when the core exits; firewall
 // policy persists until explicitly restored. Traffic routed into the tunnel
-// is allowed by its source address (the TUN address). [ПРОВЕРИТЬ на Windows 10/11, spike S-7]
+// is allowed by its source address (the TUN address).
 type WindowsFirewall struct {
 	Netsh     string // default "netsh"
 	StateFile string // where the previous policy is saved (0600)

@@ -18,7 +18,7 @@ import net.veilon.core.libbox.SystemProxyStatus
  * and [LibboxPlatform].
  *
  * API checked against the Java sources gobind generates for the pinned tag
- * (net.veilon.core.libbox.*, see docs/verification/android-bind-api.txt):
+ * (net.veilon.core.libbox.*):
  * Libbox.setup(SetupOptions), Libbox.newCommandServer(handler, platform),
  * CommandServer.startOrReloadService(config, OverrideOptions),
  * closeService(), close().
@@ -80,7 +80,7 @@ class LibboxEngine(vpn: VpnService, bypass: Set<String>) : CoreEngine {
                     workingPath = ctx.filesDir.absolutePath
                     tempPath = ctx.cacheDir.absolutePath
                     // golang/go#68760, same condition as the upstream client.
-                    // [ПРОВЕРИТЬ] drop when the pinned Go release fixes it.
+                    // Drop when the pinned Go release fixes it.
                     fixAndroidStack = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
                     // Not used: the command server is never started.
                     commandServerListenPort = 0

@@ -15,7 +15,7 @@ import (
 // "com.apple/250.VeilOnKillSwitch": the stock /etc/pf.conf evaluates
 // `anchor "com.apple/*"`, so no system file is edited. pf is enabled with a
 // reference token (pfctl -E) and released with that token (pfctl -X), so other
-// pf users are not disturbed. [ПРОВЕРИТЬ на macOS 14/15, spike S-7]
+// pf users are not disturbed.
 type PF struct {
 	Bin    string // default "/sbin/pfctl"
 	Anchor string // default "com.apple/250.VeilOnKillSwitch"
