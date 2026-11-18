@@ -1,0 +1,11 @@
+# Starts the silent-update helper when veilond places a request in the
+# inbox (ADR-0069). The helper verifies everything again on its own.
+[Unit]
+Description=VeilOn update request watcher
+
+[Path]
+PathExists=/var/lib/veilon-update/inbox/request
+Unit=veilon-update.service
+
+[Install]
+WantedBy=multi-user.target

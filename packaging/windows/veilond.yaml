@@ -1,0 +1,27 @@
+# C:\ProgramData\VeilOn\veilond.yaml (owner Administrators; veilond refuses
+# the file if a non-admin principal can write it or any parent: ADR-0060).
+# Values in <...> are filled by the installer build.
+runtime_dir: C:\ProgramData\VeilOn\run
+state_dir: C:\ProgramData\VeilOn\state
+log_dir: C:\ProgramData\VeilOn\logs
+singbox:
+  path: C:\Program Files\VeilOn\sing-box.exe
+  sha256: <SINGBOX_SHA256>
+xray:                                  # VLESS: XHTTP and Vision (ADR-0066)
+  path: C:\Program Files\VeilOn\xray.exe
+  sha256: <XRAY_SHA256>
+update:                                # silent install via veilon-updater (ADR-0069)
+  inbox: C:\ProgramData\VeilOn\update-inbox
+  work_dir: C:\ProgramData\VeilOn\update-work
+api:
+  base_urls: [<API_BASE_URL>]
+  spki_pins: [<SPKI_PIN_CURRENT>, <SPKI_PIN_BACKUP>]
+trust:
+  root_keys: [{id: root-1, key: <ROOT_PUBLIC_KEY_B64>}]
+local_api:
+  socket: C:\ProgramData\VeilOn\sock\veilond.sock
+  # Local group created by the VeilOn services at start (ADR-0069); an
+  # administrator adds the users who may control the VPN:
+  #   net localgroup "VeilOn Users" <user> /add
+  allowed_groups: ["VeilOn Users"]
+tun_stack: mixed

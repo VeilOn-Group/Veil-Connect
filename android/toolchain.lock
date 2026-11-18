@@ -1,0 +1,37 @@
+# Android core toolchain lock (ADR-0061). Single source of truth for the
+# Docker build image (Dockerfile), scripts/build-aar.sh and CI.
+#
+# Integrity of each input:
+#   Go modules (sing-box, gomobile, veil-shared deps): go.sum + the public
+#     checksum database (GOSUMDB=sum.golang.org), never TOFU.
+#   NDK, platform, build-tools: sdkmanager verifies each package against
+#     Google's repository manifest.
+#   JDK 17: Debian bookworm package (apt signature check).
+#   Fields marked TOFU below are filled once by scripts/lock-toolchain.sh on
+#   a networked machine and committed; the build refuses empty values.
+#
+# Values verified against sing-box v1.13.21 sources (go.mod, Makefile
+# lib_install, cmd/internal/build_shared/sdk.go): Go 1.24.7, gomobile
+# fork v0.1.12, NDK 28.0.13004108, OpenJDK 17.
+
+SINGBOX_VERSION=v1.13.21
+# git rev of the tag (informational: the module itself is pinned by go.sum)
+SINGBOX_COMMIT=628cb31ffa79cffffd34c2f9cde6cae044e4fc12
+GO_VERSION=1.24.7
+GO_IMAGE=golang:1.24.7-bookworm
+GO_IMAGE_DIGEST=
+GOMOBILE_MODULE=github.com/sagernet/gomobile
+GOMOBILE_VERSION=v0.1.12
+JDK_PACKAGE=openjdk-17-jdk-headless
+ANDROID_CMDLINE_TOOLS_BUILD=13114758
+ANDROID_CMDLINE_TOOLS_SHA256=
+ANDROID_NDK_VERSION=28.0.13004108
+ANDROID_PLATFORM=android-35
+ANDROID_BUILD_TOOLS=35.0.0
+ANDROID_MIN_API=26
+GRADLE_VERSION=8.11.1
+GRADLE_SHA256=
+# libbox build tags: upstream android-main minus tailscale and wireguard
+# (unused by VeilOn; smaller attack surface and binary).
+LIBBOX_TAGS=with_gvisor,with_quic,with_utls,with_naive_outbound,with_clash_api,badlinkname,tfogo_checklinkname0
+ANDROID_TARGETS=android/arm64,android/arm,android/amd64

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  /Library/LaunchDaemons/net.veilon.updater.plist (root:wheel 0644).
+  Silent update helper (ADR-0069): launchd starts it when veilond writes
+  into the update inbox; it verifies the request on its own and runs
+  /usr/sbin/installer on a private copy of the signed package.
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>net.veilon.updater</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Library/Application Support/VeilOn/veilon-updater</string>
+    <string>-config</string>
+    <string>/Library/Application Support/VeilOn/veilond.yaml</string>
+    <string>apply</string>
+  </array>
+  <key>WatchPaths</key>
+  <array><string>/Library/Application Support/VeilOn/update-inbox</string></array>
+  <key>RunAtLoad</key><false/>
+  <key>Umask</key><integer>63</integer>
+  <key>HardResourceLimits</key><dict><key>Core</key><integer>0</integer></dict>
+</dict>
+</plist>

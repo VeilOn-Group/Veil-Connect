@@ -1,0 +1,21 @@
+# veilon-updater: installs an update veilond downloaded, after checking the
+# release signature (root keys from the root-owned veilond.yaml), version,
+# platform and SHA-256 on its own private copy (ADR-0069). Runs as root
+# because package managers do; it has no other inputs and no network.
+[Unit]
+Description=VeilOn silent update helper
+ConditionPathExists=/var/lib/veilon-update/inbox/request
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/veilon/veilon-updater -config /etc/veilon/veilond.yaml apply
+# The package scripts restart veilond; the helper itself must not be
+# stopped by that restart.
+KillMode=process
+PrivateNetwork=yes
+NoNewPrivileges=no
+ProtectHome=yes
+PrivateTmp=yes
+UMask=0077
+LimitCORE=0
+TimeoutStartSec=30min

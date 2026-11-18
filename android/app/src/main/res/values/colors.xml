@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From veil-shared/design-tokens.json (ADR-0042). -->
+    <color name="launcher_background">#FF0A0A0F</color>
+    <color name="bg_base">#FF0A0A0F</color>
+</resources>

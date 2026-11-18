@@ -1,0 +1,61 @@
+name: ci
+on:
+  push: { branches: [main] }
+  pull_request: {}
+permissions: { contents: read }
+env: { GOTOOLCHAIN: local, GOFLAGS: -trimpath, GOWORK: "off" }
+
+jobs:
+  veilond:
+    runs-on: ubuntu-24.04
+    defaults: { run: { working-directory: veilon-app } }
+    steps:
+      - uses: actions/checkout@v4
+        with: { path: veilon-app }
+      - uses: actions/checkout@v4
+        with: { repository: veilon/veil-shared, path: veil-shared, token: "${{ secrets.VEIL_REPOS_TOKEN }}" }
+      - uses: actions/setup-go@v5
+        with: { go-version-file: veilon-app/veilond/go.mod }
+      - uses: golangci/golangci-lint-action@v8
+        with: { version: v2.4.0, install-only: true }
+      - run: make vet lint test nodash repro
+      - run: cd veilond && GOFLAGS=-mod=mod go mod verify
+      - run: make nolog
+
+  desktop:
+    # Wails v3.0.0-beta.34: Go >= 1.26, GTK4 + WebKitGTK 6.0 + libsoup 3.
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with: { path: veilon-app }
+      - uses: actions/checkout@v4
+        with: { repository: veilon/veil-shared, path: veil-shared, token: "${{ secrets.VEIL_REPOS_TOKEN }}" }
+      - uses: actions/setup-go@v5
+        with: { go-version: "1.26.x" }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: sudo apt-get update && sudo apt-get install -y libgtk-4-dev libwebkitgtk-6.0-dev libsoup-3.0-dev
+      - run: cd veilon-app/desktop/frontend && npm ci && npm run build
+      # TODO(iter-3): commit desktop/go.sum produced here (golang.org was not reachable in the sandbox).
+      - run: cd veilon-app/desktop && go mod tidy && go vet ./... && go build ./...
+
+  android:
+    # Pinned toolchain image (android/toolchain.lock, ADR-0061). [ПРОВЕРИТЬ] first run.
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with: { path: veilon-app }
+      - uses: actions/checkout@v4
+        with: { repository: veilon/veil-shared, path: veil-shared, token: "${{ secrets.VEIL_REPOS_TOKEN }}" }
+      - run: veilon-app/android/scripts/check-lock.sh
+      - run: veilon-app/android/scripts/build-aar.sh --docker
+      - name: corebind/go.sum must be committed
+        run: cd veilon-app && test -z "$(git status --porcelain -- android/corebind/go.sum)"
+      - run: veilon-app/android/scripts/fetch-xray.sh
+      - run: veilon-app/android/scripts/docker.sh gradle --no-daemon :app:assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android
+          path: |
+            veilon-app/android/app/libs/veilon-core.aar*
+            veilon-app/android/app/build/outputs/apk/debug/*.apk

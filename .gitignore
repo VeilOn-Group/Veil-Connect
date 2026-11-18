@@ -1,0 +1,15 @@
+.env
+*.local.yaml
+/bin/
+/.cache/
+node_modules/
+dist/
+android/app/build/
+android/app/libs/*.aar
+android/app/src/main/jniLibs/
+.gradle/
+*.keystore
+*.jks
+*.key
+*.pem
+coverage.out

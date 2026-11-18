@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  VeilOn for Windows (ADR-0069). Built by tools/package/build-msi.sh with
+  wixl (msitools) or WiX 3. Per-machine install:
+    C:\Program Files\VeilOn\        binaries (admin-only writable)
+    C:\ProgramData\VeilOn\veilond.yaml   config (pins of the shipped binaries)
+  Services (LocalSystem): VeilOnService (veilond) and VeilOnUpdater (silent
+  updates). The "VeilOn Users" group is created by the services at start;
+  an administrator adds the users allowed to control the VPN.
+  The UpgradeCode never changes; ProductCode changes with every version
+  (major upgrade), so msiexec /i of a newer MSI replaces the old one.
+-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="VeilOn" Language="1033" Version="$(var.Version)" Manufacturer="VeilOn"
+           UpgradeCode="6B0A1E4C-3F6D-4C8B-9E21-7A5D0F3C2B18">
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" Platform="x64"
+             Description="VeilOn VPN" Comments="VeilOn VPN client" />
+    <Media Id="1" Cabinet="veilon.cab" EmbedCab="yes" />
+    <MajorUpgrade DowngradeErrorMessage="A newer version of VeilOn is already installed." />
+    <Icon Id="VeilOnIcon" SourceFile="$(var.Src)/icon.ico" />
+    <Property Id="ARPPRODUCTICON" Value="VeilOnIcon" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="INSTALLDIR" Name="VeilOn">
+          <Component Id="Veilond" Guid="2C5E4D1A-7B9F-4E3C-8A61-0D2F9B7C4E11" Win64="yes">
+            <File Id="veilond.exe" Name="veilond.exe" Source="$(var.Src)/veilond.exe" KeyPath="yes" />
+            <ServiceInstall Id="VeilOnServiceInstall" Name="VeilOnService" DisplayName="VeilOn VPN"
+                            Description="VeilOn VPN core service (zero-log)" Type="ownProcess" Start="auto"
+                            ErrorControl="normal" Account="LocalSystem"
+                            Arguments="-config &quot;[CommonAppDataFolder]VeilOn\veilond.yaml&quot;" />
+            <ServiceControl Id="VeilOnServiceControl" Name="VeilOnService" Start="install" Stop="both" Remove="uninstall" Wait="yes" />
+          </Component>
+          <Component Id="Updater" Guid="5D8A3F2E-1C4B-4A7E-B9D0-6E2F1A3C5B22" Win64="yes">
+            <File Id="veilon_updater.exe" Name="veilon-updater.exe" Source="$(var.Src)/veilon-updater.exe" KeyPath="yes" />
+            <ServiceInstall Id="VeilOnUpdaterInstall" Name="VeilOnUpdater" DisplayName="VeilOn Updater"
+                            Description="Installs signed VeilOn updates downloaded by the VeilOn service" Type="ownProcess"
+                            Start="auto" ErrorControl="normal" Account="LocalSystem"
+                            Arguments="-config &quot;[CommonAppDataFolder]VeilOn\veilond.yaml&quot; service" />
+            <!-- Not stopped on upgrade: it is the process running msiexec. -->
+            <ServiceControl Id="VeilOnUpdaterControl" Name="VeilOnUpdater" Start="install" Stop="uninstall" Remove="uninstall" Wait="no" />
+          </Component>
+          <Component Id="Cores" Guid="8E1B6C4D-2A7F-4D3B-A5C9-1F0E7D2B6A33" Win64="yes">
+            <File Id="sing_box.exe" Name="sing-box.exe" Source="$(var.Src)/sing-box.exe" KeyPath="yes" />
+            <File Id="xray.exe" Name="xray.exe" Source="$(var.Src)/xray.exe" />
+          </Component>
+          <Component Id="Tools" Guid="3A6F9E1B-4C2D-4B8A-9F7E-2D1C0B5A4E44" Win64="yes">
+            <File Id="veilonctl.exe" Name="veilonctl.exe" Source="$(var.Src)/veilonctl.exe" KeyPath="yes" />
+            <File Id="LICENSES.md" Name="LICENSES.md" Source="$(var.Src)/LICENSES.md" />
+          </Component>
+          <Component Id="UI" Guid="7F2C8B5A-6D1E-4F9C-B3A0-4E7D2C1B9F55" Win64="yes">
+            <File Id="veilon.exe" Name="VeilOn.exe" Source="$(var.Src)/VeilOn.exe" KeyPath="yes" />
+          </Component>
+        </Directory>
+      </Directory>
+      <Directory Id="CommonAppDataFolder">
+        <Directory Id="DATADIR" Name="VeilOn">
+          <!-- Config: replaced on upgrade (it pins the shipped binaries); veilond
+               refuses it if a non-admin may write it (ADR-0060). -->
+          <Component Id="Config" Guid="9B4E2D7C-5A3F-4E1B-8C6D-3F2A1E0D7C66" Win64="yes">
+            <File Id="veilond.yaml" Name="veilond.yaml" Source="$(var.Src)/veilond.yaml" KeyPath="yes" />
+          </Component>
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Component Id="StartMenu" Guid="1E7A4C9B-8D2F-4A6E-B0C3-5D4F2E1A8B77" Win64="yes">
+          <Shortcut Id="VeilOnShortcut" Name="VeilOn" Target="[INSTALLDIR]VeilOn.exe" WorkingDirectory="INSTALLDIR" Icon="VeilOnIcon" />
+          <RegistryValue Root="HKLM" Key="Software\VeilOn" Name="StartMenu" Type="integer" Value="1" KeyPath="yes" />
+        </Component>
+      </Directory>
+    </Directory>
+
+    <Feature Id="Main" Title="VeilOn" Level="1">
+      <ComponentRef Id="Veilond" />
+      <ComponentRef Id="Updater" />
+      <ComponentRef Id="Cores" />
+      <ComponentRef Id="Tools" />
+      <ComponentRef Id="UI" />
+      <ComponentRef Id="Config" />
+      <ComponentRef Id="StartMenu" />
+    </Feature>
+  </Product>
+</Wix>

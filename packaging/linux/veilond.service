@@ -1,0 +1,71 @@
+# veilond: VeilOn client core (ADR-0060). Runs as the dedicated system user
+# "veilon" with only the network capabilities it needs, never as root.
+# The desktop UI runs as the logged-in user, who must be in the
+# "veilon-users" group to reach the control socket.
+[Unit]
+Description=VeilOn VPN client core
+Documentation=https://veilon.example/docs
+After=network-pre.target
+Wants=network-pre.target
+
+[Service]
+Type=simple
+User=veilon
+Group=veilon
+SupplementaryGroups=veilon-users
+ExecStart=/usr/lib/veilon/veilond -config /etc/veilon/veilond.yaml
+Restart=on-failure
+RestartSec=2
+
+# Capabilities: TUN, routes, nftables kill switch and SO_MARK need
+# CAP_NET_ADMIN; CAP_NET_RAW covers raw ICMP probes of the core. They are
+# ambient so the supervised sing-box, naive, xray and nft inherit them.
+# Optional: CAP_SYS_PTRACE lets sing-box match other users' processes for
+# per-app split rules (see veilond-app-rules.conf); it is off by default.
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_RAW
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_RAW
+NoNewPrivileges=yes
+SecureBits=noroot-locked
+
+# Directories (owned by veilon, 0700; runtime 0711 so the UI can open the
+# verified installer; socket dir 0750 group veilon-users).
+RuntimeDirectory=veilon veilon/sock
+RuntimeDirectoryMode=0711
+StateDirectory=veilon
+StateDirectoryMode=0700
+LogsDirectory=veilon
+LogsDirectoryMode=0700
+UMask=0077
+# Silent updates: veilond drops verified downloads here (ADR-0069).
+ReadWritePaths=-/var/lib/veilon-update/inbox
+
+# Sandbox.
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+ProtectProc=default
+RestrictSUIDSGID=yes
+RestrictRealtime=yes
+RestrictNamespaces=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=no
+# ^ the Go runtime and cronet (in-tree naive) do not need W^X exceptions,
+#   but sing-box plugins may; [ПРОВЕРИТЬ] enable after a soak test.
+SystemCallArchitectures=native
+# [ПРОВЕРИТЬ] syscall filter on a real distro (systemd sandbox options are
+# not exercised by the e2e, which checks user, capabilities and paths).
+SystemCallFilter=@system-service @network-io
+SystemCallErrorNumber=EPERM
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+DeviceAllow=/dev/net/tun rw
+DevicePolicy=closed
+LimitCORE=0
+
+[Install]
+WantedBy=multi-user.target

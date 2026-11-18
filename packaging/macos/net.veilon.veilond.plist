@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  /Library/LaunchDaemons/net.veilon.veilond.plist (root:wheel 0644).
+  pf (kill switch) and utun need root on macOS; the control socket is
+  protected by a trusted directory, 0660 + group, and LOCAL_PEERCRED
+  checks (ADR-0060). The UI user must be in the "veilon-users" group.
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>net.veilon.veilond</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Library/Application Support/VeilOn/veilond</string>
+    <string>-config</string>
+    <string>/Library/Application Support/VeilOn/veilond.yaml</string>
+  </array>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>Umask</key><integer>63</integer>
+  <key>HardResourceLimits</key><dict><key>Core</key><integer>0</integer></dict>
+  <key>SoftResourceLimits</key><dict><key>Core</key><integer>0</integer></dict>
+</dict>
+</plist>

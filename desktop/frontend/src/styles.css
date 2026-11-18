@@ -1,0 +1,58 @@
+@import "tailwindcss";
+/* Generated from veil-shared/design-tokens.json (make generate). */
+@import "../../../../veil-shared/design/dist/tokens.css";
+@import "../../../../veil-shared/design/dist/tailwind.css";
+@import "@fontsource-variable/inter";
+@import "@fontsource/jetbrains-mono/400.css";
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--veil-bg-base);
+  color: var(--veil-text-primary);
+  font-family: var(--veil-font-ui);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+/* Visible focus ring on every interactive element (spec: focus-ring #A78BFA). */
+:focus-visible {
+  outline: 2px solid var(--veil-focus-ring);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.selectable {
+  user-select: text;
+}
+
+@keyframes veil-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 32px 4px var(--veil-glow);
+  }
+  50% {
+    box-shadow: 0 0 56px 12px var(--veil-glow);
+  }
+}
+
+.connect-glow {
+  animation: veil-pulse 3.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .connect-glow {
+    box-shadow: 0 0 40px 8px var(--veil-glow);
+  }
+}

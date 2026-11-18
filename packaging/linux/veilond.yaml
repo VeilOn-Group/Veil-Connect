@@ -1,0 +1,26 @@
+# /etc/veilon/veilond.yaml (root:root 0644; veilond refuses it otherwise).
+# No secrets here: root keys are public keys. Values in <...> are filled
+# by the package build (pins of the shipped binaries and API endpoints).
+runtime_dir: /run/veilon
+state_dir: /var/lib/veilon
+log_dir: /var/log/veilon
+singbox:
+  path: /usr/lib/veilon/sing-box
+  sha256: <SINGBOX_SHA256>
+xray:                                  # VLESS: XHTTP and Vision (ADR-0066)
+  path: /usr/lib/veilon/xray
+  sha256: <XRAY_SHA256>
+update:                                # silent install via veilon-updater (ADR-0069)
+  inbox: /var/lib/veilon-update/inbox
+  work_dir: /var/lib/veilon-update/work
+api:
+  base_urls: [<API_BASE_URL>]
+  spki_pins: [<SPKI_PIN_CURRENT>, <SPKI_PIN_BACKUP>]
+trust:
+  root_keys: [{id: root-1, key: <ROOT_PUBLIC_KEY_B64>}]
+local_api:
+  socket: /run/veilon/sock/veilond.sock
+  # Members of this group may control the VPN (connect, settings, account)
+  # and nothing more (ADR-0060).
+  allowed_groups: [veilon-users]
+tun_stack: mixed

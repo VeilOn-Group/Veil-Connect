@@ -1,0 +1,16 @@
+#!/bin/sh
+# VeilOn .pkg postinstall (ADR-0069). Runs as root.
+set -e
+D="/Library/Application Support/VeilOn"
+dseditgroup -o read veilon-users >/dev/null 2>&1 || dseditgroup -o create -r "VeilOn users" veilon-users
+# The user who installed may control the VPN.
+if [ -n "$USER" ] && [ "$USER" != root ]; then dseditgroup -o edit -a "$USER" -t user veilon-users || true; fi
+mkdir -p "$D/update-inbox" "$D/update-work"
+chown root:wheel "$D" "$D/update-work" && chmod 0755 "$D" && chmod 0700 "$D/update-work"
+# veilond runs as root on macOS (pf, utun): the inbox is root-only too.
+chown root:wheel "$D/update-inbox" && chmod 0700 "$D/update-inbox"
+chown root:wheel "$D/veilond.yaml" && chmod 0644 "$D/veilond.yaml"
+for l in net.veilon.veilond net.veilon.updater; do
+  launchctl bootout system "/Library/LaunchDaemons/$l.plist" 2>/dev/null || true
+  launchctl bootstrap system "/Library/LaunchDaemons/$l.plist"
+done

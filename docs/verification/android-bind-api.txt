@@ -1,0 +1,63 @@
+Android bind API check (ADR-0061), 2026-10-22
+
+Generator: gobind from github.com/sagernet/gomobile v0.1.12 (git tag, built locally)
+Packages:  github.com/sagernet/sing-box/experimental/libbox @ v1.13.21 (commit 628cb31ffa79cffffd34c2f9cde6cae044e4fc12)
+           github.com/veilon/veil-shared/mobile (this repository)
+Command:   GOOS=android GOARCH=arm64 gobind -lang=java -javapkg=net.veilon.core \
+             -tags $LIBBOX_TAGS (client/android/toolchain.lock) <both packages>
+
+Then: javac (JDK 21, --release default) of the generated sources against android.jar API 35,
+and kotlinc 2.x of app/.../vpn/LibboxEngine.kt + LibboxPlatform.kt against both: exit 0,
+one deprecation warning (ConnectivityManager.allNetworks). Not run: gomobile bind (needs the
+NDK), Gradle/AGP (needs Maven); those run in CI from toolchain.lock.
+
+== Interfaces implemented by the app (generated Java) ==
+-- net.veilon.core.libbox.PlatformInterface
+  public void autoDetectInterfaceControl(int fd) throws Exception;
+  public void clearDNSCache();
+  public void closeDefaultInterfaceMonitor(InterfaceUpdateListener listener) throws Exception;
+  public ConnectionOwner findConnectionOwner(int ipProtocol, String sourceAddress, int sourcePort, String destinationAddress, int destinationPort) throws Exception;
+  public NetworkInterfaceIterator getInterfaces() throws Exception;
+  public boolean includeAllNetworks();
+  public LocalDNSTransport localDNSTransport();
+  public int openTun(TunOptions options) throws Exception;
+  public WIFIState readWIFIState();
+  public void sendNotification(Notification notification) throws Exception;
+  public void startDefaultInterfaceMonitor(InterfaceUpdateListener listener) throws Exception;
+  public StringIterator systemCertificates();
+  public boolean underNetworkExtension();
+  public boolean usePlatformAutoDetectInterfaceControl();
+  public boolean useProcFS();
+-- net.veilon.core.libbox.CommandServerHandler
+  public SystemProxyStatus getSystemProxyStatus() throws Exception;
+  public void serviceReload() throws Exception;
+  public void serviceStop() throws Exception;
+  public void setSystemProxyEnabled(boolean enabled) throws Exception;
+  public void writeDebugMessage(String message);
+-- net.veilon.core.libbox.LocalDNSTransport
+  public void exchange(ExchangeContext ctx, byte[] message) throws Exception;
+  public void lookup(ExchangeContext ctx, String network, String domain) throws Exception;
+  public boolean raw();
+-- net.veilon.core.libbox.StringIterator
+  public boolean hasNext();
+  public int len();
+  public String next();
+-- net.veilon.core.libbox.NetworkInterfaceIterator
+  public boolean hasNext();
+  public NetworkInterface next();
+-- net.veilon.core.libbox.InterfaceUpdateListener
+  public void updateDefaultInterface(String interfaceName, int interfaceIndex, boolean isExpensive, boolean isConstrained);
+
+== Calls made by the app ==
+  public native void close();
+  public static native CommandServer newCommandServer(CommandServerHandler handler, PlatformInterface platformInterface) throws Exception;
+  public static native void setup(SetupOptions options) throws Exception;
+  public native void close();
+  public native void closeService() throws Exception;
+  public native void startOrReloadService(String configContent, OverrideOptions options) throws Exception;
+  public static native String buildConfig(String roots, String keysetJSON, String envJSON, String optionsJSON, long minKeysetVersion, long now, String clientVersion) throws Exception;
+  public static native String deviceProof(String seedB64, String nonce) throws Exception;
+  public static native long keysetVersion(String roots, String keysetJSON, long now) throws Exception;
+  public static native String newDeviceKey() throws Exception;
+  public static native String profileSummary(String roots, String keysetJSON, String envJSON, long minKeysetVersion, long now, String clientVersion) throws Exception;
+  public static native String verifyRelease(String roots, String keysetJSON, String releaseJSON, long now) throws Exception;
