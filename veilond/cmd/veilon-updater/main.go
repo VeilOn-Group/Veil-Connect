@@ -15,6 +15,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"io"
 	"log/slog"
 	"os"
 	"time"
@@ -29,10 +30,16 @@ import (
 // Version is the version of the installed package (set at build time).
 var Version = "0.1.0"
 
-func main() {
-	cfgPath := flag.String("config", defaultConfig, "veilond config (root-owned)")
-	flag.Parse()
-	cmd := flag.Arg(0)
+func main() { os.Exit(run(os.Args[1:], os.Stdout, os.Stderr)) }
+
+func run(args []string, stdout, stderr io.Writer) int {
+	fs := flag.NewFlagSet("veilon-updater", flag.ContinueOnError)
+	fs.SetOutput(stderr)
+	cfgPath := fs.String("config", defaultConfig, "veilond config (root-owned)")
+	if err := fs.Parse(args); err != nil {
+		return 2
+	}
+	cmd := fs.Arg(0)
 	if cmd == "" {
 		cmd = "apply"
 	}
@@ -41,7 +48,7 @@ func main() {
 	case "apply":
 		err = applyOnce(context.Background(), *cfgPath)
 	case "version":
-		fmt.Println("veilon-updater", Version, core.Platform())
+		fmt.Fprintln(stdout, "veilon-updater", Version, core.Platform())
 	default:
 		var handled bool
 		handled, err = platformCommand(cmd, *cfgPath)
@@ -50,13 +57,12 @@ func main() {
 		}
 	}
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "veilon-updater:", err)
-		os.Exit(1)
+		fmt.Fprintln(stderr, "veilon-updater:", err)
+		return 1
 	}
+	return 0
 }
 
-// load reads the config with the same ownership rules as veilond: only a
-// root-owned, not group/world-writable file is trusted.
 func load(cfgPath string) (*updater.Config, error) {
 	if err := trustpath.CheckFile(cfgPath); err != nil {
 		return nil, fmt.Errorf("config: %w", err)
