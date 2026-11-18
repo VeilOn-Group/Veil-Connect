@@ -13,3 +13,4 @@ android/app/src/main/jniLibs/
 *.key
 *.pem
 coverage.out
+desktop/frontend/coverage/

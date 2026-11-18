@@ -35,7 +35,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - run: sudo apt-get update && sudo apt-get install -y libgtk-4-dev libwebkitgtk-6.0-dev libsoup-3.0-dev
-      - run: cd veilon-app/desktop/frontend && npm ci && npm run build
+      - run: cd veilon-app/desktop/frontend && npm ci && npm run coverage && npm run build
       - run: cd veilon-app/desktop && go mod tidy && go vet ./... && go build ./...
 
   android:
