@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!--
   /Library/LaunchDaemons/net.veilon.updater.plist (root:wheel 0644).
-  Silent update helper (ADR-0069): launchd starts it when veilond writes
+  Silent update helper: launchd starts it when veilond writes
   into the update inbox; it verifies the request on its own and runs
   /usr/sbin/installer on a private copy of the signed package.
 -->

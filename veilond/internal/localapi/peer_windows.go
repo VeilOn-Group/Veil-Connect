@@ -50,7 +50,7 @@ func ResolveGroups(names []string) (gids []uint32, sids []string, err error) {
 }
 
 // EnsureLocalGroup creates a local group (e.g. "VeilOn Users", whose
-// members may control the VPN, ADR-0060) if it does not exist yet. Run by
+// members may control the VPN) if it does not exist yet. Run by
 // the LocalSystem services at start: the MSI needs no custom action.
 func EnsureLocalGroup(name, comment string) error {
 	if _, _, _, err := windows.LookupSID("", name); err == nil {

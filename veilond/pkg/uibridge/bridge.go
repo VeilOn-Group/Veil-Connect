@@ -1,5 +1,5 @@
-// Package uibridge connects the unprivileged desktop UI process to veilond
-// (ADR-0047). The Wails AssetServer mounts Middleware; the web frontend calls
+// Package uibridge connects the unprivileged desktop UI process to veilond.
+// The Wails AssetServer mounts Middleware; the web frontend calls
 // fetch("/veilond/v1/...") and the bridge forwards to veilond's unix socket.
 //
 // The asset server is in-process (no network listener), so only the app's
@@ -99,7 +99,7 @@ func New(sock string, actions Actions) *Bridge {
 			}
 			// The UI sends logins through this socket: make sure it is
 			// served by the privileged veilond and not by a local user who
-			// managed to bind the path (ADR-0060).
+			// managed to bind the path.
 			uc, ok := c.(*net.UnixConn)
 			if !ok {
 				_ = c.Close()

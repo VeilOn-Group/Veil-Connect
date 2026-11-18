@@ -17,7 +17,7 @@ import (
 	"github.com/veilon/veilon-app/veilond/internal/core"
 )
 
-// Support relay and diagnostics (ADR-0032). The diagnostics report is
+// Support relay and diagnostics. The diagnostics report is
 // built here, redacted (no IPs, host names, e-mail, keys), shown to the
 // user, and only the exact previewed report can be attached: the UI sends
 // back its SHA-256.

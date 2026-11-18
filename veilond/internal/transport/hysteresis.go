@@ -6,10 +6,9 @@ import (
 	"github.com/veilon/veil-shared/pkg/profile"
 )
 
-// Controller decides transport switches with hysteresis (ADR-0004). It is a
+// Controller decides transport switches with hysteresis. It is a
 // pure state machine: the caller feeds health snapshots and applies decisions.
-// Auto-switching is enabled in Iteration 4 (profile.Fallback.AutoSwitch);
-// the logic is unit-tested now.
+// Auto-switching is controlled by profile.Fallback.AutoSwitch.
 type Controller struct {
 	policy  profile.Fallback
 	current profile.TransportID

@@ -17,7 +17,7 @@ import (
 	"github.com/veilon/veilon-app/veilond/internal/supervisor"
 )
 
-// Naive modes (ADR-0002, ADR-0052).
+// Naive modes.
 const (
 	NaiveInTree   = "in_tree"  // sing-box naive outbound (cronet inside the core)
 	NaiveExternal = "external" // official naive binary as a local SOCKS5 proxy
@@ -25,7 +25,7 @@ const (
 
 // naiveConfig is the external naive config.json: keys are the command-line
 // flag names (USAGE.txt). "log" is deliberately absent: naive then neither
-// writes nor prints a log (ADR-0011).
+// writes nor prints a log.
 type naiveConfig struct {
 	Listen       string `json:"listen"`
 	Proxy        string `json:"proxy"`
@@ -75,7 +75,7 @@ func (m *Manager) prepareNaive(node *profile.Node, disabled map[profile.Transpor
 	}
 	if nv.CertificatePEM != "" {
 		// A private test CA cannot be passed to the official binary; such
-		// profiles exist only in dev environments (ADR-0052).
+		// profiles exist only in dev environments.
 		return nil, nil
 	}
 	port, err := freeLoopbackPort()

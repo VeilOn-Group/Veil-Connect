@@ -1,5 +1,5 @@
 // Package crashq keeps crash reports on the device until they are sent or
-// expire (ADR-0077). Reports are sanitized (veil-shared/pkg/crash) before
+// expire. Reports are sanitized (veil-shared/pkg/crash) before
 // they touch the disk, so the queue never holds raw tracebacks. At most
 // crash.MaxQueued reports are kept, none older than crash.MaxAgeDays.
 //

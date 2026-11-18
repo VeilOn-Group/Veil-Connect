@@ -35,7 +35,7 @@ import net.veilon.core.libbox.NetworkInterface as BoxInterface
 /**
  * libbox PlatformInterface for Android (sing-box 1.13.21 API).
  *
- * Privacy: the app keeps no logs (ADR-0011), reads no Wi-Fi names
+ * Privacy: the app keeps no logs, reads no Wi-Fi names
  * ([readWIFIState] returns null) and sends no notifications from the core.
  */
 internal class LibboxPlatform(
@@ -66,12 +66,12 @@ internal class LibboxPlatform(
         if (options.getAutoRoute()) {
             b.addDnsServer(options.getDNSServerAddress().value)
             // Everything is routed into the tunnel, IPv6 included: it is
-            // tunnelled or rejected by the core, never leaked (ADR-0008).
+            // tunnelled or rejected by the core, never leaked.
             b.addRoute("0.0.0.0", 0)
             b.addRoute("::", 0)
         }
         // The app itself bypasses the tunnel (the core dials the node);
-        // user-chosen apps too (split tunnelling, ADR-0054).
+        // user-chosen apps too (split tunnelling).
         b.addDisallowedApplication(vpn.packageName)
         bypass.forEach { runCatching { b.addDisallowedApplication(it) } }
         val pfd = b.establish() ?: error("android: VPN permission revoked")

@@ -42,7 +42,7 @@ func TestNFTRuleset(t *testing.T) {
 	s.HostIPv6, s.AllowLAN = false, true
 	rs, _ = (&NFTables{}).Ruleset(s)
 	if strings.Contains(rs, "ip6 ") || strings.Contains(rs, "icmpv6") {
-		t.Error("IPv6 rules must be omitted on IPv6-less hosts (ADR-0049)")
+		t.Error("IPv6 rules must be omitted on IPv6-less hosts")
 	}
 	if !strings.Contains(rs, "10.0.0.0/8") {
 		t.Error("AllowLAN must add private ranges")

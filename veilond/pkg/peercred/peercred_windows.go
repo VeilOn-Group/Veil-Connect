@@ -99,7 +99,7 @@ func privileged(c *Cred) bool {
 }
 
 // VerifyServer is the client-side check: veilond runs as LocalSystem. The
-// socket directory itself is protected by its DACL (ADR-0060).
+// socket directory itself is protected by its DACL.
 func VerifyServer(c *Cred, _ string) error {
 	if c == nil || c.SID != SIDLocalSystem {
 		return errors.New("peercred: socket is not served by LocalSystem")

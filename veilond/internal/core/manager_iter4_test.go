@@ -393,7 +393,7 @@ func (x *fakeXray) Run(ctx context.Context) error {
 
 // TestXraySidecar: VLESS (XHTTP default, Vision) runs in a pinned Xray
 // process; sing-box reaches it through authenticated loopback SOCKS and
-// lets its traffic bypass the TUN (ADR-0066).
+// lets its traffic bypass the TUN.
 func TestXraySidecar(t *testing.T) {
 	api := newFakeAPI(t)
 	m, core, runtime := newManager(t, api)

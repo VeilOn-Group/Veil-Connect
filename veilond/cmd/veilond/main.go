@@ -2,7 +2,7 @@
 // holds the verified profile and exposes the local control API to the UI.
 // It runs with network privileges (Linux: a dedicated user with
 // CAP_NET_ADMIN only; macOS: LaunchDaemon; Windows: LocalSystem service);
-// the UI runs unprivileged (ADR-0007, ADR-0060).
+// the UI runs unprivileged.
 package main
 
 import (
@@ -70,7 +70,7 @@ func run(cfgPath string) error {
 // control manager).
 func runCtx(ctx context.Context, cfgPath string) error {
 	// The config names the binaries veilond executes with privileges and
-	// their pins: it must be as protected as the binaries (ADR-0060).
+	// their pins: it must be as protected as the binaries.
 	if err := trustpath.CheckFile(cfgPath); err != nil {
 		return fmt.Errorf("config: %w", err)
 	}
@@ -99,7 +99,7 @@ func runCtx(ctx context.Context, cfgPath string) error {
 	defer func() { _ = ring.Close() }()
 
 	// Everything veilond and the core print goes through hostname-aware
-	// redaction before touching disk (ADR-0011). API hosts stay readable.
+	// redaction before touching disk. API hosts stay readable.
 	scrub := redact.New(redact.Options{Hostnames: true, KeepHosts: hostsOf(cfg.API.BaseURLs)})
 	log := redact.NewLogger(ring, slog.LevelInfo, scrub)
 	coreOut := redact.NewWriter(ring, scrub)
@@ -121,7 +121,7 @@ func runCtx(ctx context.Context, cfgPath string) error {
 	if err != nil {
 		return err
 	}
-	// Crash reports (ADR-0077): sanitized on the device, sent only with
+	// Crash reports: sanitized on the device, sent only with
 	// the user's consent.
 	crashes, err := crashq.Open(filepath.Join(cfg.StateDir, "crash"), Version, nil)
 	if err != nil {

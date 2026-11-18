@@ -14,7 +14,7 @@ import (
 	"github.com/veilon/veilon-app/veilond/internal/localapi"
 )
 
-// ServiceName is the Windows service veilond runs as (LocalSystem, ADR-0007).
+// ServiceName is the Windows service veilond runs as (LocalSystem).
 const ServiceName = "VeilOnService"
 
 // UsersGroup may control the VPN through the local API.
@@ -42,7 +42,7 @@ type handler struct{ cfgPath string }
 
 func (h *handler) Execute(_ []string, req <-chan svc.ChangeRequest, st chan<- svc.Status) (bool, uint32) {
 	st <- svc.Status{State: svc.StartPending}
-	// The installer-free way to provide the UI access group (ADR-0060).
+	// The installer-free way to provide the UI access group.
 	if err := localapi.EnsureLocalGroup(UsersGroup, "Members may control the VeilOn VPN"); err != nil {
 		fmt.Fprintln(os.Stderr, "veilond:", err)
 	}

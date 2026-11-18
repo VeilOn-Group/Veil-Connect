@@ -18,7 +18,7 @@ import (
 const AutostartPath = "/app/v1/autostart"
 
 // AutostartHandler serves GET {"enabled","supported"} and PUT
-// {"enabled": bool} for the login item of e (ADR-0076).
+// {"enabled": bool} for the login item of e.
 func AutostartHandler(e autostart.Entry) http.Handler {
 	type state struct {
 		Enabled   bool `json:"enabled"`
@@ -63,7 +63,7 @@ func AutostartHandler(e autostart.Entry) http.Handler {
 
 // InstallCrashOutput returns the traceback the previous UI run left in
 // dir ("" if none), then makes the runtime write this run's fatal error
-// there (ADR-0077). dir is created 0700 in the user's cache directory.
+// there. dir is created 0700 in the user's cache directory.
 func InstallCrashOutput(dir string) (string, error) {
 	if err := os.MkdirAll(dir, 0o700); err != nil {
 		return "", err

@@ -17,7 +17,7 @@ class VeilOnApp : Application() {
     override fun onCreate() {
         super.onCreate()
         repo = Repository(this)
-        // Crash capture first (ADR-0077): sanitized reports, sent only with consent.
+        // Crash capture first: sanitized reports, sent only with consent.
         repo.crashes.install()
         CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
             repo.crashes.collect()

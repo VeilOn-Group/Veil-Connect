@@ -229,7 +229,7 @@ func waitFor(t *testing.T, cond func() bool) {
 
 // TestRefusesWritableLocation: a correctly hashed library in a directory
 // others can write is refused anyway (they could swap it between the hash
-// check and the load: ADR-0060).
+// check and the load).
 func TestRefusesWritableLocation(t *testing.T) {
 	cfg := helperCfg(t, "sleep", io.Discard)
 	dir := t.TempDir()

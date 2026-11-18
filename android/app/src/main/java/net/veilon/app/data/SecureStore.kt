@@ -8,7 +8,7 @@ import androidx.security.crypto.MasterKey
 /**
  * Everything the app keeps lives here, encrypted with a Keystore-backed key
  * and excluded from backups (data_extraction_rules.xml). There is no history:
- * no connection times, no visited hosts, no traffic log (ADR-0034).
+ * no connection times, no visited hosts, no traffic log.
  */
 class SecureStore(ctx: Context) {
     private val prefs: SharedPreferences = EncryptedSharedPreferences.create(

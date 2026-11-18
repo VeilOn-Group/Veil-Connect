@@ -1,5 +1,5 @@
 // Package trustpath refuses files and directories that a less privileged
-// local user could modify (ADR-0060).
+// local user could modify.
 //
 // veilond runs with network privileges and executes binaries, reads its
 // config and writes state. If any of those paths (or a parent directory) is

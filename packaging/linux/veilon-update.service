@@ -1,6 +1,6 @@
 # veilon-updater: installs an update veilond downloaded, after checking the
 # release signature (root keys from the root-owned veilond.yaml), version,
-# platform and SHA-256 on its own private copy (ADR-0069). Runs as root
+# platform and SHA-256 on its own private copy. Runs as root
 # because package managers do; it has no other inputs and no network.
 [Unit]
 Description=VeilOn silent update helper

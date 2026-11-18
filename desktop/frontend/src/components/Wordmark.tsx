@@ -1,6 +1,6 @@
 import mark from "../../../../../veil-shared/brand/dist/veilon-mark.svg";
 
-// "VeilOn" wordmark: the brand mark replaces the letter V (ADR-0051).
+// "VeilOn" wordmark: the brand mark replaces the letter V.
 // The mark sits on the text baseline and scales with font-size, so the same
 // component works in headers, sign-in screens and panels.
 export function Wordmark({ className = "", suffix }: { className?: string; suffix?: string }) {

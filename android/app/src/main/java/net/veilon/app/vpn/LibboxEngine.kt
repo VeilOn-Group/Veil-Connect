@@ -36,7 +36,7 @@ class LibboxEngine(vpn: VpnService, bypass: Set<String>) : CoreEngine {
         platform.startMonitor()
         // CommandServer.start() is deliberately NOT called: it would open the
         // libbox gRPC command socket. Nothing else in the app needs it, so no
-        // other app gets an IPC surface into the core (ADR-0060, ADR-0061).
+        // other app gets an IPC surface into the core.
         val s = Libbox.newCommandServer(Handler(), platform)
         try {
             s.startOrReloadService(config, OverrideOptions())
@@ -57,7 +57,7 @@ class LibboxEngine(vpn: VpnService, bypass: Set<String>) : CoreEngine {
         platform.stopMonitor()
     }
 
-    /** Callbacks from the core. No logs are written anywhere (ADR-0011). */
+    /** Callbacks from the core. No logs are written anywhere. */
     private class Handler : CommandServerHandler {
         override fun serviceStop() {}
         override fun serviceReload() {}

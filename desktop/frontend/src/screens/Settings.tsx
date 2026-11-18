@@ -80,7 +80,7 @@ export function Settings({ lang, onLang, go }: { lang: Lang; onLang: (l: Lang) =
 }
 
 /**
- * DNS over HTTPS through the tunnel (ADR-0073). Quad9 by default; the
+ * DNS over HTTPS through the tunnel. Quad9 by default; the
  * resolver sees the server's address, never the user's.
  */
 function DnsCard({ s, save }: { s: S; save: (p: Partial<S>) => Promise<unknown> }) {

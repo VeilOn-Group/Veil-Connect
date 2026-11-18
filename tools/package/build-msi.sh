@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Builds VeilOn-<version>-x64.msi with wixl (msitools) from cross-compiled
-# Windows binaries (ADR-0069). The UI (Wails) and sing-box.exe are inputs:
+# Windows binaries. The UI (Wails) and sing-box.exe are inputs:
 #   UI_EXE        VeilOn.exe built on Windows (make desktop)
 #   SINGBOX_EXE   pinned sing-box.exe
 #   XRAY_EXE      pinned xray.exe (build/xray.lock, Xray-windows-64.zip)

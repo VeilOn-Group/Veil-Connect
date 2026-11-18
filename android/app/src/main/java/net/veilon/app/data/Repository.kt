@@ -13,16 +13,16 @@ data class Settings(
     val autoSwitch: Boolean = true,
     val disabled: Set<String> = emptySet(),
     val bypassPackages: Set<String> = emptySet(),
-    // Automatic split tunnelling: .ru and .su sites outside the VPN (ADR-0064).
+    // Automatic split tunnelling: .ru and .su sites outside the VPN.
     val bypassRu: Boolean = true,
-    // DoH resolver through the tunnel (ADR-0073): quad9 (default),
+    // DoH resolver through the tunnel: quad9 (default),
     // cloudflare, google, adguard, opendns or custom with dnsCustomUrl.
     val dnsProvider: String = "quad9",
     val dnsCustomUrl: String = "",
-    // Connect after the device boots (ADR-0076): needs the VPN permission
+    // Connect after the device boots: needs the VPN permission
     // granted once; Always-on VPN in system settings is the OS-level option.
     val autoConnect: Boolean = false,
-    // Send sanitized crash reports automatically (ADR-0077); off by default.
+    // Send sanitized crash reports automatically; off by default.
     val crashReports: Boolean = false,
 ) {
     fun toJSON(): String = JSONObject()
@@ -142,7 +142,7 @@ class Repository(ctx: Context) {
         )
     }
 
-    /** Verified sing-box config for libbox and, for VLESS, the Xray config (ADR-0066). */
+    /** Verified sing-box config for libbox and, for VLESS, the Xray config. */
     data class Configs(val singBox: String, val xray: String)
 
     /**
@@ -166,7 +166,7 @@ class Repository(ctx: Context) {
         return Configs(b.getString("singbox"), b.optString("xray"))
     }
 
-    // ---- payments (ADR-0023): the provider page opens in the browser, the
+    // ---- payments: the provider page opens in the browser, the
     // order is polled; nothing about purchases is stored on the device ----
 
     fun offers(): List<Offer> {
@@ -196,7 +196,7 @@ class Repository(ctx: Context) {
         return st
     }
 
-    // ---- support (ADR-0028…0032): relayed as is, nothing stored on the device ----
+    // ---- support: relayed as is, nothing stored on the device ----
 
     fun supportTickets(): List<SupportTicket> {
         val a = JSONArray(api.call("GET", "/v1/support/tickets", bearer = access()))

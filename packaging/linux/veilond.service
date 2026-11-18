@@ -1,4 +1,4 @@
-# veilond: VeilOn client core (ADR-0060). Runs as the dedicated system user
+# veilond: VeilOn client core. Runs as the dedicated system user
 # "veilon" with only the network capabilities it needs, never as root.
 # The desktop UI runs as the logged-in user, who must be in the
 # "veilon-users" group to reach the control socket.
@@ -36,7 +36,7 @@ StateDirectoryMode=0700
 LogsDirectory=veilon
 LogsDirectoryMode=0700
 UMask=0077
-# Silent updates: veilond drops verified downloads here (ADR-0069).
+# Silent updates: veilond drops verified downloads here.
 ReadWritePaths=-/var/lib/veilon-update/inbox
 
 # Sandbox.

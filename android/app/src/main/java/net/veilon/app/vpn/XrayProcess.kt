@@ -7,7 +7,7 @@ import kotlin.concurrent.thread
 
 /**
  * Runs the bundled Xray-core (lib/<abi>/libxray.so, official release pinned
- * in build/xray.lock) for the VLESS transports, XHTTP and Vision (ADR-0066).
+ * in build/xray.lock) for the VLESS transports, XHTTP and Vision.
  *
  * sing-box (libbox, in process) hands VLESS traffic to Xray through a local
  * SOCKS5 endpoint with a per-start password. Xray runs under the app's own
@@ -15,7 +15,7 @@ import kotlin.concurrent.thread
  * the node do not loop back into the TUN.
  *
  * Privacy: the config disables every Xray log; stdout and stderr are drained
- * and dropped (ADR-0011). The config file is private to the app (0600) and
+ * and dropped. The config file is private to the app (0600) and
  * deleted on stop.
  */
 class XrayProcess(private val ctx: Context) {

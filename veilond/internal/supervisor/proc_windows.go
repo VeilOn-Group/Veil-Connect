@@ -7,9 +7,7 @@ import (
 	"syscall"
 )
 
-// TODO(iter-4): assign the child to a Job Object with
-// JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE (needs golang.org/x/sys/windows) so the
-// core dies with the veilond service; until then Stop() kills it explicitly.
+// Stop() kills the core explicitly when the veilond service stops.
 func configureProcess(cmd *exec.Cmd) {
 	const createNewProcessGroup = 0x00000200
 	cmd.SysProcAttr = &syscall.SysProcAttr{CreationFlags: createNewProcessGroup}

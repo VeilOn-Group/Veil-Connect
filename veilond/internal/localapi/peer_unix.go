@@ -21,7 +21,7 @@ func prepareSocketDir(dir string, o UnixOptions) error {
 }
 
 func secureSocket(path string, o UnixOptions) error {
-	// 0660: the UI runs as a regular user in the socket's group (ADR-0006).
+	// 0660: the UI runs as a regular user in the socket's group.
 	if err := os.Chmod(path, 0o660); err != nil { //nolint:gosec // group access is intended
 		return err
 	}

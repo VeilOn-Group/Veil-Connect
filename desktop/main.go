@@ -1,6 +1,6 @@
 // Command veilon is the unprivileged desktop UI (Wails v3). It holds no
 // secrets and never touches the network directly: everything goes to the
-// privileged veilond service through pkg/uibridge (ADR-0006, ADR-0047).
+// privileged veilond service through pkg/uibridge.
 //
 // Windows: "main" (connect/profile/settings/privacy) and "support" (a second
 // window, not a tab: spec 6.2). Built separately from the Go workspace
@@ -44,7 +44,7 @@ func socketPath() string {
 	}
 	switch runtime.GOOS {
 	case "windows":
-		// AF_UNIX with a protected DACL and a peer-token check (ADR-0060).
+		// AF_UNIX with a protected DACL and a peer-token check.
 		return `C:\ProgramData\VeilOn\sock\veilond.sock`
 	case "darwin":
 		return "/var/run/veilon/sock/veilond.sock"
@@ -52,7 +52,7 @@ func socketPath() string {
 	return "/run/veilon/sock/veilond.sock"
 }
 
-// loginItem is the "start at login" entry (ADR-0076); it starts the UI
+// loginItem is the "start at login" entry; it starts the UI
 // minimised.
 func loginItem() autostart.Entry {
 	exe, _ := os.Executable()
@@ -139,8 +139,8 @@ func openSupport(app *application.App) {
 	}).Show()
 }
 
-// reportPreviousCrash hands a crash of the previous UI run to veilond
-// (ADR-0077): veilond sanitizes and queues it, and sends it only with the
+// reportPreviousCrash hands a crash of the previous UI run to veilond:
+// veilond sanitizes and queues it, and sends it only with the
 // user's consent. The trace file lives in the user's cache directory.
 func reportPreviousCrash(b *uibridge.Bridge) {
 	dir, err := os.UserCacheDir()

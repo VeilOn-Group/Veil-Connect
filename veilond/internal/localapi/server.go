@@ -1,12 +1,9 @@
-// Package localapi is the UI <-> veilond control channel (ADR-0006):
+// Package localapi is the UI <-> veilond control channel:
 // HTTP/JSON over a unix socket (trusted directory, 0660 or a protected DACL,
-// and a kernel peer-credential check on every connection: ADR-0060) or, in
+// and a kernel peer-credential check on every connection) or, in
 // dev builds only, 127.0.0.1 TCP with a bearer token and Host check. Requests that
 // carry an Origin header are refused: browsers must never reach veilond
 // (CSRF / DNS-rebinding protection).
-//
-// Deviation from ADR-0006 (gRPC): JSON over the same transports until the
-// proto toolchain is wired into CI: see ADR-0046.
 package localapi
 
 import (
@@ -115,8 +112,7 @@ func viaTCP(r *http.Request) bool { v, _ := r.Context().Value(ctxKey{}).(bool); 
 
 // ServeTCP serves the fallback channel; the token is written to tokenFile
 // (0600). Dev builds only (config validation): any local process can reach
-// a loopback port, so the token file permissions would be the only gate
-// (ADR-0060).
+// a loopback port, so the token file permissions would be the only gate.
 func (s *Server) ServeTCP(ctx context.Context, addr, tokenFile string) error {
 	l, err := (&net.ListenConfig{}).Listen(ctx, "tcp", addr)
 	if err != nil {
@@ -273,8 +269,8 @@ func (s *Server) downloadUpdate(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, 200, info)
 }
 
-// installUpdate hands the downloaded update to the privileged helper
-// (ADR-0069). It takes no input: only the update veilond itself verified
+// installUpdate hands the downloaded update to the privileged helper.
+// It takes no input: only the update veilond itself verified
 // can be submitted.
 func (s *Server) installUpdate(w http.ResponseWriter, r *http.Request) {
 	info, err := s.m.InstallUpdate(r.Context())
@@ -344,7 +340,7 @@ func (s *Server) profile(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) refresh(w http.ResponseWriter, r *http.Request) {
-	// Refresh and, if the active location changed, reconnect (ADR-0062).
+	// Refresh and, if the active location changed, reconnect.
 	if _, err := s.m.RefreshAndApply(r.Context()); err != nil {
 		s.fail(w, err)
 		return
@@ -490,7 +486,7 @@ func (s *Server) paymentURL(w http.ResponseWriter, _ *http.Request) {
 	writeJSON(w, 200, map[string]string{"url": u})
 }
 
-// dnsPresets lists the DoH providers the settings screen offers (ADR-0073).
+// dnsPresets lists the DoH providers the settings screen offers.
 func (s *Server) dnsPresets(w http.ResponseWriter, _ *http.Request) {
 	writeJSON(w, 200, map[string]any{"default": singbox.DNSDefault, "presets": singbox.DoHPresets})
 }

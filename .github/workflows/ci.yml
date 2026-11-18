@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v4
         with: { path: veilon-app }
       - uses: actions/checkout@v4
-        with: { repository: veilon/veil-shared, path: veil-shared, token: "${{ secrets.VEIL_REPOS_TOKEN }}" }
+        with: { repository: VeilOn-Group/veil-shared, path: veil-shared }
       - uses: actions/setup-go@v5
         with: { go-version-file: veilon-app/veilond/go.mod }
       - uses: golangci/golangci-lint-action@v8
@@ -29,24 +29,23 @@ jobs:
       - uses: actions/checkout@v4
         with: { path: veilon-app }
       - uses: actions/checkout@v4
-        with: { repository: veilon/veil-shared, path: veil-shared, token: "${{ secrets.VEIL_REPOS_TOKEN }}" }
+        with: { repository: VeilOn-Group/veil-shared, path: veil-shared }
       - uses: actions/setup-go@v5
         with: { go-version: "1.26.x" }
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - run: sudo apt-get update && sudo apt-get install -y libgtk-4-dev libwebkitgtk-6.0-dev libsoup-3.0-dev
       - run: cd veilon-app/desktop/frontend && npm ci && npm run build
-      # TODO(iter-3): commit desktop/go.sum produced here (golang.org was not reachable in the sandbox).
       - run: cd veilon-app/desktop && go mod tidy && go vet ./... && go build ./...
 
   android:
-    # Pinned toolchain image (android/toolchain.lock, ADR-0061).
+    # Pinned toolchain image (android/toolchain.lock).
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
         with: { path: veilon-app }
       - uses: actions/checkout@v4
-        with: { repository: veilon/veil-shared, path: veil-shared, token: "${{ secrets.VEIL_REPOS_TOKEN }}" }
+        with: { repository: VeilOn-Group/veil-shared, path: veil-shared }
       - run: veilon-app/android/scripts/check-lock.sh
       - run: veilon-app/android/scripts/build-aar.sh --docker
       - name: corebind/go.sum must be committed

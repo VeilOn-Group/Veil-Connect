@@ -13,7 +13,7 @@ import (
 	"github.com/veilon/veilon-app/veilond/internal/crashq"
 )
 
-// Crash reports (ADR-0077). veilond's own fatal errors and crashes of the
+// Crash reports. veilond's own fatal errors and crashes of the
 // cores are queued sanitized on the device. With the "crash_reports"
 // setting on they are sent automatically; otherwise only when the user
 // presses "Send" on a report. The server does not learn which account
@@ -172,10 +172,10 @@ func (m *Manager) StartupCrashes() {
 }
 
 // AutoConnect connects at start when the user turned "connect at start"
-// on (ADR-0076): refreshes the profile if none is cached, then connects to
+// on: refreshes the profile if none is cached, then connects to
 // the last location. Errors are logged; the UI shows the state as usual.
 // With the kill switch on, nothing leaves the host outside the tunnel from
-// the moment the core is planned (ADR-0053).
+// the moment the core is planned.
 func (m *Manager) AutoConnect(ctx context.Context) {
 	if !m.store.LoadSettings().AutoConnectEnabled() {
 		return

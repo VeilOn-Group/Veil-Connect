@@ -9,7 +9,7 @@ val rootKeys: String = providers.gradleProperty("veilon.rootKeys").getOrElse("")
 val apiBaseUrls: String = providers.gradleProperty("veilon.apiBaseUrls").getOrElse("https://api.veilon.example")
 val apiPins: String = providers.gradleProperty("veilon.apiPins").getOrElse("")
 
-// Versions shared with the native core build (toolchain.lock, ADR-0061).
+// Versions shared with the native core build (toolchain.lock).
 val toolchain: Map<String, String> = rootProject.file("toolchain.lock").readLines()
     .map { it.trim() }
     .filter { it.isNotEmpty() && !it.startsWith("#") && it.contains('=') }
@@ -48,14 +48,14 @@ android {
     }
     kotlinOptions { jvmTarget = "17" }
     // libxray.so (scripts/fetch-xray.sh) is executed as a child process, so it
-    // must be extracted to nativeLibraryDir (ADR-0066).
+    // must be extracted to nativeLibraryDir.
     packaging { jniLibs { useLegacyPackaging = true } }
 }
 
 dependencies {
     // Built by scripts/build-aar.sh (gomobile, toolchain.lock): sing-box
     // libbox (GPL-3.0) and the VeilOn bridge veil-shared/mobile in ONE AAR
-    // (net.veilon.core.libbox.*, net.veilon.core.mobile.*; ADR-0061).
+    // (net.veilon.core.libbox.*, net.veilon.core.mobile.*).
     implementation(files("libs/veilon-core.aar"))
 
     implementation(platform(libs.androidx.compose.bom))

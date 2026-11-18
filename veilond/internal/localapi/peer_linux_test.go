@@ -24,7 +24,7 @@ func curlAs(t *testing.T, sock string) (string, bool) {
 
 // TestPeerPolicyEnforced proves that an unprivileged local user is refused
 // by the kernel-credential check even when file permissions would let it
-// connect, and accepted once its group is allowed (ADR-0060).
+// connect, and accepted once its group is allowed.
 func TestPeerPolicyEnforced(t *testing.T) {
 	if os.Geteuid() != 0 {
 		t.Skip("needs root to switch users")

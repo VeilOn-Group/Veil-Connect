@@ -10,7 +10,7 @@ import (
 
 // VLESS (+REALITY) over Vision or XHTTP. Both run in the local Xray
 // process; sing-box reaches it through an authenticated loopback SOCKS
-// endpoint (ADR-0066).
+// endpoint.
 type VLESS struct {
 	base
 	id profile.TransportID
@@ -87,7 +87,6 @@ func (*Hysteria2) Stop(context.Context) error  { return nil }
 
 // Probe: an HTTPS request through the hysteria2 outbound requires a completed
 // QUIC handshake (salamander + TLS 1.3/h3): this is the QUIC+HTTP probe.
-// TODO(iter-4): pre-flight raw UDP reachability probe before connecting.
 func (t *Hysteria2) Probe(ctx context.Context, n *profile.Node, p Prober) Health {
 	if !t.Configured(n) {
 		return t.record(0, ErrNotConfigured)
@@ -99,7 +98,7 @@ func (t *Hysteria2) Probe(ctx context.Context, n *profile.Node, p Prober) Health
 // Naive (HTTP/2 over TLS, TCP only).
 type Naive struct {
 	base
-	// External is true in external mode (ADR-0002, ADR-0052): the official
+	// External is true in external mode: the official
 	// naive binary runs next to the core and is supervised by the manager;
 	// the core reaches it through an authenticated local SOCKS5 outbound.
 	External bool

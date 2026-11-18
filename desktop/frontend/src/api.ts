@@ -267,7 +267,7 @@ export const api = {
   crashReports: () => call<CrashList>("GET", "/v1/crash-reports"),
   sendCrash: (id: string) => call<unknown>("POST", `/v1/crash-reports/${id}/send`),
   deleteCrash: (id: string) => call<unknown>("POST", `/v1/crash-reports/${id}/delete`),
-  // The login item is per user and handled by the UI process (ADR-0076).
+  // The login item is per user and handled by the UI process.
   autostart: () => appCall<Autostart>("GET"),
   setAutostart: (enabled: boolean) => appCall<Autostart>("PUT", { enabled }),
   openSupport: async () => {

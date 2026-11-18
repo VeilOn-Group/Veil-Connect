@@ -1,5 +1,5 @@
 # veilon-app (Veil Connect: veilond, desktop, Android; GPL-3.0-or-later).
-# Needs the veil-shared checkout next to this repository (ADR-0074).
+# Needs the veil-shared checkout next to this repository.
 SHELL := /bin/bash
 .ONESHELL:
 .DEFAULT_GOAL := help
@@ -74,7 +74,7 @@ brand: ## Copy the brand assets from veil-shared/brand/dist into the apps
 	mkdir -p desktop/frontend/public && cp $(SHARED_DIR)/brand/dist/favicon.ico desktop/frontend/public/
 
 .PHONY: nodash
-nodash: ## Typography: no em dashes (ADR-0058)
+nodash: ## Typography: no em dashes
 	python3 $(SHARED_DIR)/tools/text/nodash.py --check --root .
 
 .PHONY: ci

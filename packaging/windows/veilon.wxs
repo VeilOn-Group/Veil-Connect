@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  VeilOn for Windows (ADR-0069). Built by tools/package/build-msi.sh with
+  VeilOn for Windows. Built by tools/package/build-msi.sh with
   wixl (msitools) or WiX 3. Per-machine install:
     C:\Program Files\VeilOn\        binaries (admin-only writable)
     C:\ProgramData\VeilOn\veilond.yaml   config (pins of the shipped binaries)
@@ -56,7 +56,7 @@
       <Directory Id="CommonAppDataFolder">
         <Directory Id="DATADIR" Name="VeilOn">
           <!-- Config: replaced on upgrade (it pins the shipped binaries); veilond
-               refuses it if a non-admin may write it (ADR-0060). -->
+               refuses it if a non-admin may write it. -->
           <Component Id="Config" Guid="9B4E2D7C-5A3F-4E1B-8C6D-3F2A1E0D7C66" Win64="yes">
             <File Id="veilond.yaml" Name="veilond.yaml" Source="$(var.Src)/veilond.yaml" KeyPath="yes" />
           </Component>

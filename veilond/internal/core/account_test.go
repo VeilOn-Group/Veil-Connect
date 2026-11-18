@@ -116,7 +116,7 @@ func TestExportDelete(t *testing.T) {
 }
 
 // TestInstallUpdateSubmitsToHelper: veilond only hands its own verified
-// download to the helper's inbox (ADR-0069).
+// download to the helper's inbox.
 func TestInstallUpdateSubmitsToHelper(t *testing.T) {
 	base := newFakeAPI(t)
 	seed, _ := sign.GenerateSeed()

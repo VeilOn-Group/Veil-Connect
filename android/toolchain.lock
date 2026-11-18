@@ -1,4 +1,4 @@
-# Android core toolchain lock (ADR-0061). Single source of truth for the
+# Android core toolchain lock. Single source of truth for the
 # Docker build image (Dockerfile), scripts/build-aar.sh and CI.
 #
 # Integrity of each input:

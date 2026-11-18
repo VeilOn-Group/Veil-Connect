@@ -10,8 +10,8 @@ import (
 	"github.com/veilon/veilon-app/veilond/internal/transport"
 )
 
-// autoSwitcher drives one hysteresis controller per selector group
-// (ADR-0004). It never persists anything: decisions live in memory and the
+// autoSwitcher drives one hysteresis controller per selector group.
+// It never persists anything: decisions live in memory and the
 // core's cache_file only remembers the current selection.
 type autoSwitcher struct {
 	policy profile.Fallback

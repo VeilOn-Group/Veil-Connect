@@ -1,6 +1,6 @@
 // Package peercred identifies the process on the other end of a local
 // (AF_UNIX) connection using kernel-provided credentials, and decides
-// whether it may use veilond's control API (ADR-0060).
+// whether it may use veilond's control API.
 //
 // The kernel, not the client, supplies the identity:
 //   - Linux: SO_PEERCRED (uid, gid, pid) and SO_PEERGROUPS (supplementary

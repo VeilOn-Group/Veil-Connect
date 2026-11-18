@@ -5,7 +5,7 @@ import { Banner, Button, Card, SectionTitle } from "../components/ui";
 import { useAction, usePoll } from "../hooks";
 import { useT } from "../i18n";
 
-// Crash reports waiting on this device (ADR-0077). The text shown is
+// Crash reports waiting on this device. The text shown is
 // exactly what would be sent: already cleaned of addresses, host names
 // and paths.
 export function CrashReports({ onBack }: { onBack: () => void }) {

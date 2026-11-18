@@ -1,4 +1,4 @@
-// Package updater is the privileged half of silent updates (ADR-0069).
+// Package updater is the privileged half of silent updates.
 //
 // veilond (unprivileged) downloads and verifies an update, then drops three
 // files into the update inbox, a directory the helper's service watches:
@@ -20,7 +20,7 @@
 // Whoever can write to the inbox can therefore make the helper install
 // only a newer, offline-signed VeilOn release: the same thing the user
 // could do by hand. That is why the helper adds no local privilege
-// escalation (ADR-0060), and why it has no other inputs.
+// escalation, and why it has no other inputs.
 package updater
 
 import (

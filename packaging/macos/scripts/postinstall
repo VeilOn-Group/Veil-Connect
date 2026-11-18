@@ -1,5 +1,5 @@
 #!/bin/sh
-# VeilOn .pkg postinstall (ADR-0069). Runs as root.
+# VeilOn .pkg postinstall. Runs as root.
 set -e
 D="/Library/Application Support/VeilOn"
 dseditgroup -o read veilon-users >/dev/null 2>&1 || dseditgroup -o create -r "VeilOn users" veilon-users

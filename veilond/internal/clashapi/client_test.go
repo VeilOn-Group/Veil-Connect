@@ -70,7 +70,7 @@ func TestMockSelectAndAuth(t *testing.T) {
 	}
 }
 
-// TestNeverCallsConnections enforces ADR-0003: the connections endpoint lists
+// TestNeverCallsConnections enforces that the connections endpoint lists
 // destinations and must never be used by veilond.
 func TestNeverCallsConnections(t *testing.T) {
 	files, _ := filepath.Glob("*.go")

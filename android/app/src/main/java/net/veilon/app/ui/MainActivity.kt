@@ -100,7 +100,7 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     private fun Wordmark() {
-        // The brand mark replaces the letter V (ADR-0051).
+        // The brand mark replaces the letter V.
         Row(verticalAlignment = Alignment.Bottom) {
             Image(painterResource(R.drawable.ic_launcher_foreground), null, Modifier.size(34.dp).offset(y = 6.dp))
             Text("eil", color = Tokens.textPrimary, fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
@@ -213,7 +213,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    /** DNS over HTTPS through the tunnel (ADR-0073); Quad9 by default. */
+    /** DNS over HTTPS through the tunnel; Quad9 by default. */
     @Composable
     private fun DnsChooser(s: net.veilon.app.data.Settings, onSave: (net.veilon.app.data.Settings) -> Unit) {
         val presets = remember { runCatching { repo.dnsPresets() }.getOrElse { listOf("quad9" to "Quad9") } }
@@ -242,7 +242,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    /** Reports waiting on this device, with the exact text that would be sent (ADR-0077). */
+    /** Reports waiting on this device, with the exact text that would be sent. */
     @Composable
     private fun CrashList() {
         var items by remember { mutableStateOf(repo.crashes.list()) }
@@ -322,7 +322,8 @@ class MainActivity : ComponentActivity() {
             offers = withContext(Dispatchers.IO) { runCatching { repo.offers() }.getOrElse { emptyList() } }
             offers?.firstOrNull()?.let { plan = it.planId }
         }
-        // Poll the order while waiting (every 3 s, the page may stay open in the browser).
+        // Poll the order while waiting (every 3 s, the page may stay open in the
+        // browser).
         LaunchedEffect(order) {
             val id = order ?: return@LaunchedEffect
             var fails = 0

@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-// Primitives built only on design tokens (ADR-0042): text on buttons uses
+// Primitives built only on design tokens: text on buttons uses
 // primary-solid (#7C3AED, 5.19:1): never #8B5CF6, which fails AA for text.
 
 type Variant = "primary" | "secondary" | "ghost" | "danger";

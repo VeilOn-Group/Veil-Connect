@@ -1,5 +1,5 @@
 // Package apiclient talks to veilon-api with SPKI pinning and endpoint
-// rotation (ADR-0022). It never sends device or usage identifiers beyond
+// rotation. It never sends device or usage identifiers beyond
 // what each endpoint requires.
 package apiclient
 
@@ -324,7 +324,7 @@ func (c *Client) Order(ctx context.Context, access, id string) (*apitypes.Billin
 	return &out, c.do(ctx, http.MethodGet, "/v1/billing/orders/"+url.PathEscape(id), access, nil, &out)
 }
 
-// Support (ADR-0028…0032). Results are passed to the UI as raw JSON: the
+// Support. Results are passed to the UI as raw JSON: the
 // daemon does not interpret or store conversations.
 
 // SupportGet performs a GET under /v1/support.
@@ -339,7 +339,7 @@ func (c *Client) SupportPost(ctx context.Context, access, path string, in any) (
 	return out, c.do(ctx, http.MethodPost, "/v1/support"+path, access, in, &out)
 }
 
-// SendCrashReport posts a sanitized crash report (ADR-0077). The session
+// SendCrashReport posts a sanitized crash report. The session
 // only lets the server rate-limit; the report is stored without it.
 func (c *Client) SendCrashReport(ctx context.Context, access string, r apitypes.CrashReport) error {
 	return c.do(ctx, http.MethodPost, "/v1/crash-reports", access, r, nil)

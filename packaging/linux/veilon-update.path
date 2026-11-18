@@ -1,5 +1,5 @@
 # Starts the silent-update helper when veilond places a request in the
-# inbox (ADR-0069). The helper verifies everything again on its own.
+# inbox. The helper verifies everything again on its own.
 [Unit]
 Description=VeilOn update request watcher
 

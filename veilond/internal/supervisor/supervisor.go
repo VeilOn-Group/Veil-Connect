@@ -1,4 +1,4 @@
-// Package supervisor runs the sing-box core as a child process (ADR-0001):
+// Package supervisor runs the sing-box core as a child process:
 // binary hash verification before every start, exponential backoff with
 // jitter, process-group termination (no zombies), graceful stop with timeout.
 package supervisor
@@ -57,7 +57,7 @@ type Config struct {
 	// OnCrash is called when the process crashed (not for error exits or
 	// stops we asked for): kind is crash.KindPanic with the Go traceback
 	// from its output, or crash.KindSignal with the fault and the last
-	// output lines. The text is raw: callers must sanitize it (ADR-0077).
+	// output lines. The text is raw: callers must sanitize it.
 	OnCrash func(kind, text string)
 	Logger  *slog.Logger
 }
@@ -116,7 +116,7 @@ func (s *Supervisor) set(st State, err error, pid int) {
 
 // VerifyBinary checks that the binary sits in a path only privileged
 // principals can modify (otherwise the hash below would be a
-// time-of-check/time-of-use race, ADR-0060) and its pinned SHA-256.
+// time-of-check/time-of-use race) and its pinned SHA-256.
 func VerifyBinary(path, wantHex string) error {
 	if err := trustpath.CheckFile(path); err != nil {
 		return fmt.Errorf("%w: %w", ErrBinaryTampered, err)

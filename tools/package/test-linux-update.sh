@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Silent update round trip on a disposable Debian/Ubuntu host or VM, as root
-# (ADR-0069): installs veilon 0.6.0, then lets veilon-updater install a
+# Silent update round trip on a disposable Debian/Ubuntu host or VM, as root:
+# installs veilon 0.6.0, then lets veilon-updater install a
 # signed 0.6.1 from the inbox, checks that a downgrade, a tampered package
 # and a foreign signature are refused, and removes the package.
 # All keys are generated here for the test and deleted afterwards.

@@ -14,7 +14,7 @@ class ApiException(val status: Int, val code: String, message: String) : IOExcep
 
 /**
  * VeilOn API client: TLS with SPKI pinning (current + backup pin), several
- * base URLs tried in order (ADR-0022). No identifiers beyond the bearer token
+ * base URLs tried in order. No identifiers beyond the bearer token
  * are sent; OkHttp has no cache and no cookie jar.
  */
 class ApiClient(private val baseUrls: List<String>, pins: List<String>) {

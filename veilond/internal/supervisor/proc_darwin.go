@@ -8,8 +8,7 @@ import (
 )
 
 // macOS has no Pdeathsig; the core is in its own group and veilond (a
-// LaunchDaemon, ADR-0007) kills the group on shutdown.
-// TODO(iter-4): kqueue NOTE_EXIT watchdog in the child wrapper for veilond crashes.
+// LaunchDaemon) kills the group on shutdown.
 func configureProcess(cmd *exec.Cmd) {
 	cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
 }

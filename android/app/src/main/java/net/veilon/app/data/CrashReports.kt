@@ -12,7 +12,7 @@ import java.io.File
 data class CrashItem(val id: String, val component: String, val day: String, val title: String, val text: String, val json: String)
 
 /**
- * Crash reports on Android (ADR-0077).
+ * Crash reports on Android.
  *
  * Capture: uncaught JVM exceptions are written raw to a private file by
  * [install]; Go fatal errors (this bridge, libbox) go to another private

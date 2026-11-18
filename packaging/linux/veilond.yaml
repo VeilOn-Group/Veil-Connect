@@ -7,10 +7,10 @@ log_dir: /var/log/veilon
 singbox:
   path: /usr/lib/veilon/sing-box
   sha256: <SINGBOX_SHA256>
-xray:                                  # VLESS: XHTTP and Vision (ADR-0066)
+xray:                                  # VLESS: XHTTP and Vision
   path: /usr/lib/veilon/xray
   sha256: <XRAY_SHA256>
-update:                                # silent install via veilon-updater (ADR-0069)
+update:                                # silent install via veilon-updater
   inbox: /var/lib/veilon-update/inbox
   work_dir: /var/lib/veilon-update/work
 api:
@@ -21,6 +21,6 @@ trust:
 local_api:
   socket: /run/veilon/sock/veilond.sock
   # Members of this group may control the VPN (connect, settings, account)
-  # and nothing more (ADR-0060).
+  # and nothing more.
   allowed_groups: [veilon-users]
 tun_stack: mixed

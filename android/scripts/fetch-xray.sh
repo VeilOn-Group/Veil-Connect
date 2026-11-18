@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Puts the pinned official Xray-core Android binaries into the APK as
-# lib/<abi>/libxray.so (ADR-0066). Android only allows executing files from
+# lib/<abi>/libxray.so. Android only allows executing files from
 # the app's native library directory, so the binary ships as a "library"
 # and the app runs it as a child process (VLESS: XHTTP and Vision).
 #

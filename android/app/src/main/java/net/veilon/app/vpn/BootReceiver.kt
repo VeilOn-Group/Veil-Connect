@@ -8,7 +8,7 @@ import net.veilon.app.VeilOnApp
 
 /**
  * Connects after boot or an app update when the user turned "connect at
- * start" on (ADR-0076). Only if the VPN permission was already granted
+ * start" on. Only if the VPN permission was already granted
  * (VpnService.prepare returns null): a receiver cannot show the consent
  * dialog. Always-on VPN in system settings is the stronger option: the OS
  * starts the service itself and can block traffic without VPN.

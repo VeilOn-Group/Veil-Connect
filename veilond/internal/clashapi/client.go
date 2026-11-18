@@ -1,5 +1,5 @@
 // Package clashapi is a minimal client for the sing-box Clash API, used by
-// veilond to switch selectors and run delay probes (ADR-0003).
+// veilond to switch selectors and run delay probes.
 //
 // Endpoint behaviour verified against sing-box 1.13.21 (live and in
 // experimental/clashapi/proxies.go):

@@ -13,7 +13,7 @@ import (
 	"github.com/veilon/veilon-app/veilond/pkg/peercred"
 )
 
-// UnixOptions configures the control socket (ADR-0006, ADR-0060).
+// UnixOptions configures the control socket.
 type UnixOptions struct {
 	// GID (unix, > 0) owns the socket and its directory; members may connect.
 	GID int

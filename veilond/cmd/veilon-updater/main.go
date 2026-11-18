@@ -1,4 +1,4 @@
-// Command veilon-updater is the privileged silent-update helper (ADR-0069).
+// Command veilon-updater is the privileged silent-update helper.
 // It runs as root / LocalSystem, started by the OS service manager when
 // veilond puts a request into the update inbox:
 //
@@ -56,7 +56,7 @@ func main() {
 }
 
 // load reads the config with the same ownership rules as veilond: only a
-// root-owned, not group/world-writable file is trusted (ADR-0060).
+// root-owned, not group/world-writable file is trusted.
 func load(cfgPath string) (*updater.Config, error) {
 	if err := trustpath.CheckFile(cfgPath); err != nil {
 		return nil, fmt.Errorf("config: %w", err)

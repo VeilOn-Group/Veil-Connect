@@ -28,8 +28,8 @@ func platformCommand(cmd, cfgPath string) (bool, error) {
 	return false, nil
 }
 
-// setupGroup creates the local group whose members may control the VPN
-// (ADR-0060); the services also do it at start. An existing group is kept.
+// setupGroup creates the local group whose members may control the VPN;
+// the services also do it at start. An existing group is kept.
 func setupGroup() error {
 	return localapi.EnsureLocalGroup(usersGroup, "Members may control the VeilOn VPN")
 }

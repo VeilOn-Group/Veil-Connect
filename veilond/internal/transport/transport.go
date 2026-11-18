@@ -1,7 +1,7 @@
 // Package transport defines the Transport abstraction (VLESS, Hysteria 2,
 // Naive). All three run inside the single sing-box core; a Transport owns its
 // slice of the config, its capabilities, its probes and its local metrics.
-// Metrics never leave the device (ADR-0004).
+// Metrics never leave the device.
 package transport
 
 import (

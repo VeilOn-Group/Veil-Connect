@@ -18,7 +18,7 @@ import (
 // Switch"). The previous policy is saved to StateFile and restored on
 // Release, also after a crash (Engage/Release are idempotent).
 //
-// Rationale (ADR-0053): sing-box strict_route already installs WFP filters,
+// Rationale: sing-box strict_route already installs WFP filters,
 // but in a dynamic WFP session that vanishes when the core exits; firewall
 // policy persists until explicitly restored. Traffic routed into the tunnel
 // is allowed by its source address (the TUN address).

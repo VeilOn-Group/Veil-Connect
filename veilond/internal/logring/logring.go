@@ -1,4 +1,4 @@
-// Package logring is the client's local log sink (ADR-0011): two files of at
+// Package logring is the client's local log sink: two files of at
 // most MaxBytes each (current + previous), already-redacted input only,
 // wipeable on demand and on exit. Logs never leave the device without consent.
 package logring

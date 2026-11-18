@@ -104,12 +104,12 @@ type Options struct {
 	// CoreExtraFiles are files the core loads at runtime (e.g. libcronet for
 	// the in-tree naive outbound), pinned by SHA-256 like the core itself.
 	CoreExtraFiles map[string]string
-	// NaiveMode is NaiveInTree (default) or NaiveExternal (ADR-0052).
+	// NaiveMode is NaiveInTree (default) or NaiveExternal.
 	NaiveMode   string
 	NaivePath   string
 	NaiveSHA256 string
-	// XrayPath and XraySHA256: the Xray process for the VLESS transports
-	// (ADR-0066). Empty: XHTTP and Vision are not offered.
+	// XrayPath and XraySHA256: the Xray process for the VLESS transports.
+	// Empty: XHTTP and Vision are not offered.
 	XrayPath   string
 	XraySHA256 string
 	// PaymentHosts overrides DefaultPaymentHosts (confirmation URL hosts).
@@ -127,15 +127,15 @@ type Options struct {
 	TunName string
 	// UpdateHTTP downloads update artifacts (tests inject a client).
 	UpdateHTTP *http.Client
-	// UpdateInbox is the silent updater's inbox (ADR-0069); empty = none.
+	// UpdateInbox is the silent updater's inbox; empty = none.
 	UpdateInbox string
-	// Crashes queues crash reports of veilond and the cores (ADR-0077);
+	// Crashes queues crash reports of veilond and the cores;
 	// nil disables crash reporting.
 	Crashes *crashq.Queue
 }
 
 // DetectIPv6 is the default HostHasIPv6 probe. Only Linux kernels can lack
-// IPv6 in practice; other platforms always report true (ADR-0049).
+// IPv6 in practice; other platforms always report true.
 func DetectIPv6() bool {
 	if runtime.GOOS != "linux" {
 		return true
@@ -494,7 +494,7 @@ func (m *Manager) Connect(ctx context.Context, nodeID string) error {
 		if err := os.MkdirAll(m.opt.RuntimeDir, 0o700); err != nil {
 			return err
 		}
-		// The bundled geosite-category-ru rule set (ADR-0068); without it the
+		// The bundled geosite-category-ru rule set; without it the
 		// zone suffixes still apply.
 		if path, err := rulesets.WriteCategoryRU(m.opt.RuntimeDir); err == nil {
 			opts.BypassRuleSets = []singbox.RuleSetFile{{Tag: rulesets.CategoryRUTag, Path: path}}
@@ -547,7 +547,7 @@ func (m *Manager) Connect(ctx context.Context, nodeID string) error {
 	}
 
 	// Kill switch before anything starts: from here until an explicit
-	// disconnect nothing leaves the host outside the tunnel (ADR-0053).
+	// disconnect nothing leaves the host outside the tunnel.
 	if settings.KillSwitch {
 		spec := killswitch.Spec{
 			TunName: m.opt.TunName, TunAddr4: netip.MustParseAddr("172.19.0.1"),
@@ -599,7 +599,7 @@ func (m *Manager) Connect(ctx context.Context, nodeID string) error {
 	go func() {
 		defer wg.Done()
 		if err := runner.Run(runCtx); err != nil {
-			// e.g. a tampered or untrusted binary: never retried (ADR-0060).
+			// e.g. a tampered or untrusted binary: never retried.
 			m.opt.Logger.Error("core stopped permanently", "err", err)
 			m.setFailed(err)
 			runErr.Store(&err)
@@ -948,7 +948,7 @@ func (m *Manager) healthLoop(ctx context.Context, p *profile.Profile, nodeID str
 			wg.Wait()
 			// Every transport failing repeatedly usually means the node's
 			// parameters changed (keys rotated, ports moved): fetch the new
-			// profile right away (ADR-0062).
+			// profile right away.
 			down, seen := true, false
 			for _, tr := range m.trans {
 				if tr.Configured(node) {
@@ -999,7 +999,7 @@ const (
 	BypassViaTunnelK = "tunnel_kill_switch" // macOS + kill switch: pf cannot let only the core's direct traffic out
 )
 
-// bypassZones returns the zones to send around the VPN (ADR-0064).
+// bypassZones returns the zones to send around the VPN.
 func bypassZones(s state.Settings, goos string) []string {
 	if bypassState(s, goos) != BypassOn {
 		return nil
@@ -1014,7 +1014,7 @@ func bypassState(s state.Settings, goos string) string {
 	case s.KillSwitch && goos == "darwin":
 		// pf cannot tell the core's direct traffic from any other app's,
 		// so under the kill switch these sites go through the tunnel
-		// instead of failing (ADR-0053, ADR-0064).
+		// instead of failing.
 		return BypassViaTunnelK
 	}
 	return BypassOn

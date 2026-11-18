@@ -29,14 +29,14 @@ type Config struct {
 		ExtraFiles map[string]string `yaml:"extra_files"`
 	} `yaml:"singbox"`
 
-	// Naive selects how the naive transport runs (ADR-0002, ADR-0052).
+	// Naive selects how the naive transport runs.
 	Naive struct {
 		Mode   string `yaml:"mode"` // in_tree (default) | external
 		Path   string `yaml:"path"` // external: official naive binary
 		SHA256 string `yaml:"sha256"`
 	} `yaml:"naive"`
 
-	// Xray runs the VLESS transports, XHTTP and Vision (ADR-0066): the
+	// Xray runs the VLESS transports, XHTTP and Vision: the
 	// official release binary, pinned. Empty path: VLESS is not offered.
 	Xray struct {
 		Path   string `yaml:"path"`
@@ -60,7 +60,7 @@ type Config struct {
 		RootKeys []RootKey `yaml:"root_keys"`
 	} `yaml:"trust"`
 
-	// LocalAPI is the UI control socket (ADR-0006, ADR-0060). Whoever may
+	// LocalAPI is the UI control socket. Whoever may
 	// connect may control the VPN (connect, disconnect, settings, account),
 	// never more: no endpoint takes a file path or command.
 	LocalAPI struct {
@@ -77,7 +77,7 @@ type Config struct {
 	} `yaml:"local_api"`
 
 	// Update: silent installation through the privileged helper
-	// veilon-updater (ADR-0069). Empty inbox: updates are only downloaded
+	// veilon-updater. Empty inbox: updates are only downloaded
 	// and the user starts the installer.
 	Update struct {
 		Inbox   string `yaml:"inbox"`    // shared with the helper (root:veilon 0770)
@@ -93,7 +93,7 @@ type Config struct {
 	TunStack string `yaml:"tun_stack"` // system | gvisor | mixed
 
 	// ProfileRefreshMinutes: how often the signed profile is refreshed to
-	// pick up node changes made in the panel (ADR-0062). Default 60.
+	// pick up node changes made in the panel. Default 60.
 	ProfileRefreshMinutes int `yaml:"profile_refresh_minutes"`
 }
 

@@ -1,4 +1,4 @@
-# Reproducible Android core build environment (ADR-0061). Every version comes
+# Reproducible Android core build environment. Every version comes
 # from toolchain.lock via build args; scripts/build-aar.sh --docker passes
 # them and refuses an incomplete lock. Usage: see README.md.
 ARG GO_IMAGE_REF=golang:1.24.7-bookworm

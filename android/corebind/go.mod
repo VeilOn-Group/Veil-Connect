@@ -2,7 +2,7 @@
 // libbox and veil-shared/mobile are bound together into ONE AAR
 // (veilon-core.aar, native library libveilcore.so). Two separate gomobile
 // AARs would each ship their own Go runtime and the same go.Seq Java
-// classes, which collide at dex/link time (ADR-0061).
+// classes, which collide at dex/link time.
 module github.com/veilon/veilon-app/android/corebind
 
 go 1.24.7

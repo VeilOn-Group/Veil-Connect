@@ -5,7 +5,7 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-// veil-shared/design-tokens.json (ADR-0042). Text on buttons uses
+// veil-shared/design-tokens.json. Text on buttons uses
 // primary-solid (#7C3AED) for AA contrast.
 object Tokens {
     val bgBase = Color(0xFF0A0A0F)

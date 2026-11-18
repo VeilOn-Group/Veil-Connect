@@ -41,7 +41,7 @@ export function Transports({ status, onStatus }: { status: Status; onStatus: (s:
               disabled={!connected || !ts.enabled || !ts.configured}
               onClick={() => select("tcp", ts.id)}
             />
-            {/* UDP is never offered for naive (ADR-0004); veilond refuses it too. */}
+            {/* UDP is never offered for naive; veilond refuses it too. */}
             {ts.capabilities.supports_udp && (
               <GroupButton
                 label={t("udpGroup")}

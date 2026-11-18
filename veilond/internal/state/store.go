@@ -2,9 +2,6 @@
 // files and atomic writes. Contents (data-inventory: client.keychain,
 // client.profile_cache): device key seed, tokens, account number, signed
 // profile/keyset, UI settings. No usage history of any kind.
-//
-// TODO(iter-4): move secrets (device key, tokens, account number) to the OS
-// keychain (Windows DPAPI/Credential Manager, macOS Keychain, libsecret).
 package state
 
 import (
@@ -180,26 +177,26 @@ type Settings struct {
 	ManualUDP         string          `json:"manual_udp"`
 	Language          string          `json:"language"`
 	// CrashReports sends sanitized crash reports automatically (opt-in,
-	// off by default, ADR-0077). Off: reports wait on the device for a
+	// off by default). Off: reports wait on the device for a
 	// manual "Send" and expire after 30 days.
 	CrashReports bool `json:"crash_reports"`
 	// KillSwitch blocks all non-tunnel traffic at the OS firewall while
 	// connected or reconnecting; released only by an explicit disconnect.
 	KillSwitch bool `json:"kill_switch"`
-	// AutoSwitch lets the hysteresis controller change transports (ADR-0004).
+	// AutoSwitch lets the hysteresis controller change transports.
 	// A manual transport selection turns it off until re-enabled.
 	AutoSwitch bool `json:"auto_switch"`
-	// SplitRules are the user's split-tunnelling rules (ADR-0054).
+	// SplitRules are the user's split-tunnelling rules.
 	SplitRules []SplitRule `json:"split_rules"`
 	// BypassRU sends the .ru and .su zones around the VPN (automatic split
-	// tunnelling, ADR-0064). nil (settings saved by older versions) means
+	// tunnelling). nil (settings saved by older versions) means
 	// the default: on.
 	BypassRU *bool `json:"bypass_ru,omitempty"`
-	// DNS is the DoH resolver used through the tunnel (ADR-0073). nil
+	// DNS is the DoH resolver used through the tunnel. nil
 	// (older settings, older UIs) means the default: Quad9.
 	DNS *DNS `json:"dns,omitempty"`
 	// AutoConnect connects when veilond starts (system boot), with the
-	// last location (ADR-0076). nil (older settings, older UIs): off.
+	// last location. nil (older settings, older UIs): off.
 	AutoConnect *bool `json:"auto_connect,omitempty"`
 }
 
@@ -265,7 +262,7 @@ func (s *Store) ClearSession() error {
 
 // SaveResolved stores the last known addresses of node and API host names
 // (the same names the cached profile already contains). Used only when the
-// kill switch blocks the system resolver after a daemon restart (ADR-0053).
+// kill switch blocks the system resolver after a daemon restart.
 func (s *Store) SaveResolved(m map[string][]string) error { return s.writeJSON(fResolved, m) }
 
 // LoadResolved returns the stored host addresses (empty map if none).

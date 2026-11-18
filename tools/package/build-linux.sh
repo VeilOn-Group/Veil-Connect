@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds the Linux client packages (ADR-0069): veilon_<v>_<arch>.deb and
+# Builds the Linux client packages: veilon_<v>_<arch>.deb and
 # veilon-<v>-1.<arch>.rpm with veilond, veilon-updater, veilonctl, the
 # pinned cores (sing-box, xray) and, when present, the desktop UI.
 #

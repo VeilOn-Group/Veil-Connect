@@ -5,9 +5,9 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <!-- "Connect at start" (ADR-0076), off by default. -->
+    <!-- "Connect at start", off by default. -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <!-- Needed to list apps for per-app split tunnelling (declared use, ADR-0034). -->
+    <!-- Needed to list apps for per-app split tunnelling (declared use). -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 
     <application

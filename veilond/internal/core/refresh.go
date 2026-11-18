@@ -13,7 +13,7 @@ import (
 	"github.com/veilon/veilon-app/veilond/internal/apiclient"
 )
 
-// Automatic pick-up of node configuration changes (ADR-0062): the panel
+// Automatic pick-up of node configuration changes: the panel
 // may change ports, keys or options of a node at any time. veilond
 // refreshes the signed profile periodically and immediately when every
 // transport of the active location fails; if the active location changed,

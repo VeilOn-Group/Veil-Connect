@@ -56,7 +56,7 @@ func (m *Manager) Offers(ctx context.Context) ([]apitypes.BillingOffer, error) {
 
 // Checkout creates a payment and remembers it as the one in progress. The
 // confirmation URL must point to a known provider page: the UI process
-// opens it in the system browser (ADR-0023).
+// opens it in the system browser.
 func (m *Manager) Checkout(ctx context.Context, planID, provider string) (*apitypes.CheckoutResponse, error) {
 	if planID == "" || provider == "" || len(planID) > 64 || len(provider) > 32 {
 		return nil, ErrBadCheckoutArg

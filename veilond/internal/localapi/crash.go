@@ -10,7 +10,7 @@ import (
 	"github.com/veilon/veilon-app/veilond/internal/crashq"
 )
 
-// Crash reports (ADR-0077): the UI lists the queued reports with their
+// Crash reports: the UI lists the queued reports with their
 // full text (exactly what would be sent), sends or deletes them, and the
 // desktop UI process submits its own previous crash.
 

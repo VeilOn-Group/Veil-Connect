@@ -1,5 +1,5 @@
 // Package killswitch blocks all traffic that does not go through the VPN
-// tunnel, at the OS firewall level (ADR-0009, ADR-0053). It complements
+// tunnel, at the OS firewall level. It complements
 // sing-box strict_route, whose rules disappear when the core stops: these
 // rules persist while the core restarts and until the user explicitly
 // disconnects, so a crashed or restarting core never leaks traffic.
@@ -18,7 +18,7 @@ type Spec struct {
 	Servers    []netip.Addr // VPN node addresses (the core must reach them directly)
 	APIs       []netip.Addr // veilon-api endpoints (profile refresh while the tunnel is down)
 	AllowLAN   bool         // RFC 1918 / link-local / multicast stay reachable
-	HostIPv6   bool         // emit IPv6 rules (false on IPv6-less kernels, ADR-0049)
+	HostIPv6   bool         // emit IPv6 rules (false on IPv6-less kernels)
 	CorePath   string       // sing-box binary (Windows program rule)
 	DaemonPath string       // veilond binary (Windows program rule)
 	// DirectMark (Linux): packets carrying this SO_MARK come from the core's

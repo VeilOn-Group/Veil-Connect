@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Builds app/libs/veilon-core.aar: sing-box libbox (GPL-3.0, pinned in
 # corebind/go.mod) and veil-shared/mobile bound together by gomobile into
-# ONE AAR with native library libveilcore.so (ADR-0061).
+# ONE AAR with native library libveilcore.so.
 #
 #   scripts/build-aar.sh            # inside the pinned image (or a host that
 #                                   # matches toolchain.lock exactly)
@@ -37,7 +37,7 @@ grep -q "^github.com/sagernet/sing-box ${SINGBOX_VERSION} " go.sum || { echo "si
 
 out="$here/app/libs"
 mkdir -p "$out"
-rm -f "$out"/libbox.aar "$out"/veilcore.aar  # pre-ADR-0061 layout
+rm -f "$out"/libbox.aar "$out"/veilcore.aar  # older layout
 gomobile bind -v \
   -target="$ANDROID_TARGETS" -androidapi "$ANDROID_MIN_API" \
   -javapkg=net.veilon.core -libname=veilcore \

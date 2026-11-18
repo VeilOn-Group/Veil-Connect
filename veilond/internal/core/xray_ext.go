@@ -10,7 +10,7 @@ import (
 	"github.com/veilon/veilon-app/veilond/internal/supervisor"
 )
 
-// xraySetup is what Connect needs to run the Xray process (ADR-0066).
+// xraySetup is what Connect needs to run the Xray process.
 type xraySetup struct {
 	plan    *xray.Plan
 	cfgPath string

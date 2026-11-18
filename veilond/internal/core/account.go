@@ -77,7 +77,7 @@ func (m *Manager) DeleteAccount(ctx context.Context) error {
 	return m.store.ClearSession()
 }
 
-// ---------- self-update (ADR-0056) ----------
+// ---------- self-update ----------
 
 // Platform is this build's release platform name.
 func Platform() string {
@@ -105,7 +105,7 @@ type UpdateInfo struct {
 	Mandatory  bool   `json:"mandatory,omitempty"`
 	Downloaded bool   `json:"downloaded"`
 	Path       string `json:"path,omitempty"`
-	// SilentInstall: the privileged helper can install it (ADR-0069).
+	// SilentInstall: the privileged helper can install it.
 	SilentInstall bool `json:"silent_install"`
 	Installing    bool `json:"installing,omitempty"`
 }
@@ -119,7 +119,7 @@ type updateState struct {
 
 // PackageFormat is set at build time by the Linux packages ("deb", "rpm"):
 // -ldflags "-X github.com/veilon/veilon-app/veilond/internal/core.PackageFormat=deb".
-// It selects the release platform the silent updater can install (ADR-0069).
+// It selects the release platform the silent updater can install.
 var PackageFormat = ""
 
 // CheckUpdate fetches signed release metadata and verifies it against the
@@ -169,7 +169,7 @@ var ErrUpdateHash = errors.New("core: update does not match signed hash; discard
 
 // DownloadUpdate downloads the artifact of the last verified metadata and
 // checks size and SHA-256 before keeping it. Installing is left to the OS
-// installer the user starts (TODO(iter-5): silent per-platform install).
+// installer the user starts.
 func (m *Manager) DownloadUpdate(ctx context.Context) (*UpdateInfo, error) {
 	m.upd.mu.Lock()
 	meta := m.upd.meta
@@ -236,7 +236,7 @@ func (m *Manager) DownloadUpdate(ctx context.Context) (*UpdateInfo, error) {
 var ErrNoSilentInstall = errors.New("core: silent install is not available on this installation")
 
 // InstallUpdate hands the downloaded, verified update to the privileged
-// helper veilon-updater through its inbox (ADR-0069). The helper verifies
+// helper veilon-updater through its inbox. The helper verifies
 // everything again with its own root keys and installs the package; the
 // package scripts then restart veilond.
 func (m *Manager) InstallUpdate(_ context.Context) (*UpdateInfo, error) {

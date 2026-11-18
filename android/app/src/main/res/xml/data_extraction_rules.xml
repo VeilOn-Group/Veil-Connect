@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Nothing is backed up or transferred: device key, tokens and the cached
-     profile stay on this device only (ADR-0034). -->
+     profile stay on this device only. -->
 <data-extraction-rules>
     <cloud-backup>
         <exclude domain="root" path="." />

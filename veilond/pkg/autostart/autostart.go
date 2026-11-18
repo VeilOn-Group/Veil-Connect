@@ -1,5 +1,5 @@
 // Package autostart registers the desktop UI to start when the user logs
-// in (ADR-0076). It is per user and needs no privileges: the UI process
+// in. It is per user and needs no privileges: the UI process
 // calls it for the logged-in user. veilond itself is a system service and
 // starts at boot independently of this.
 //
