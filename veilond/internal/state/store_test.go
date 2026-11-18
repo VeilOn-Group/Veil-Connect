@@ -59,3 +59,20 @@ func TestClearSessionRotatesDevice(t *testing.T) {
 		t.Fatal("device key must rotate on logout")
 	}
 }
+
+func TestKeysetRecordRoundTrip(t *testing.T) {
+	s, err := Open(t.TempDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := s.LoadKeyset(); err == nil {
+		t.Fatal("missing keyset loaded")
+	}
+	if err := s.SaveKeyset(KeysetRecord{Version: 7}); err != nil {
+		t.Fatal(err)
+	}
+	r, err := s.LoadKeyset()
+	if err != nil || r.Version != 7 {
+		t.Fatalf("keyset version lost: %+v %v", r, err)
+	}
+}

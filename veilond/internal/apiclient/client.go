@@ -286,7 +286,8 @@ func (c *Client) Profile(ctx context.Context, access string) (*sign.Envelope, er
 // (raw JSON, shown to the user as is).
 func (c *Client) ExportAccount(ctx context.Context, access string) (json.RawMessage, error) {
 	var out json.RawMessage
-	return out, c.do(ctx, http.MethodGet, "/v1/account/export", access, nil, &out)
+	err := c.do(ctx, http.MethodGet, "/v1/account/export", access, nil, &out)
+	return out, err
 }
 
 // DeleteAccount erases the account on the server.
@@ -309,7 +310,8 @@ func (c *Client) LatestRelease(ctx context.Context, platform, channel string) (*
 // Offers lists the plans for sale with their prices per provider.
 func (c *Client) Offers(ctx context.Context) ([]apitypes.BillingOffer, error) {
 	var out []apitypes.BillingOffer
-	return out, c.do(ctx, http.MethodGet, "/v1/billing/offers", "", nil, &out)
+	err := c.do(ctx, http.MethodGet, "/v1/billing/offers", "", nil, &out)
+	return out, err
 }
 
 // Checkout starts a payment of a plan through a provider.
@@ -330,13 +332,15 @@ func (c *Client) Order(ctx context.Context, access, id string) (*apitypes.Billin
 // SupportGet performs a GET under /v1/support.
 func (c *Client) SupportGet(ctx context.Context, access, path string) (json.RawMessage, error) {
 	var out json.RawMessage
-	return out, c.do(ctx, http.MethodGet, "/v1/support"+path, access, nil, &out)
+	err := c.do(ctx, http.MethodGet, "/v1/support"+path, access, nil, &out)
+	return out, err
 }
 
 // SupportPost performs a JSON POST under /v1/support.
 func (c *Client) SupportPost(ctx context.Context, access, path string, in any) (json.RawMessage, error) {
 	var out json.RawMessage
-	return out, c.do(ctx, http.MethodPost, "/v1/support"+path, access, in, &out)
+	err := c.do(ctx, http.MethodPost, "/v1/support"+path, access, in, &out)
+	return out, err
 }
 
 // SendCrashReport posts a sanitized crash report. The session

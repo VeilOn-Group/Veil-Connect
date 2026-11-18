@@ -164,7 +164,8 @@ type KeysetRecord struct {
 func (s *Store) SaveKeyset(r KeysetRecord) error { return s.writeJSON(fKeyset, r) }
 func (s *Store) LoadKeyset() (KeysetRecord, error) {
 	var r KeysetRecord
-	return r, s.readJSON(fKeyset, &r)
+	err := s.readJSON(fKeyset, &r)
+	return r, err
 }
 
 // Settings are user preferences (no history).
